@@ -50,11 +50,18 @@ RSpec.describe Chef, type: :model do
         expect(chef_dupe.valid?).to eq(false)
       end
 
-      it 'email should be case insensitive' do
+      it 'should be case insensitive' do
         chef_dupe = @chef.dup
         chef_dupe.email = @chef.email.upcase
         @chef.save
         expect(chef_dupe.valid?).to eq(false)
+      end
+
+      it 'should be lower case before hitting the database' do
+        mixed_case_email = "PeterisTestetajs@peteris.co.uk"
+        @chef.email = mixed_case_email
+        @chef.save
+        expect(@chef.reload.email).to eq(mixed_case_email.downcase)
       end
     end
   end
