@@ -58,7 +58,7 @@ RSpec.describe Chef, type: :model do
       end
 
       it 'should be lower case before hitting the database' do
-        mixed_case_email = "PeterisTestetajs@peteris.co.uk"
+        mixed_case_email = 'PeterisTestetajs@peteris.co.uk'
         @chef.email = mixed_case_email
         @chef.save
         expect(@chef.reload.email).to eq(mixed_case_email.downcase)
