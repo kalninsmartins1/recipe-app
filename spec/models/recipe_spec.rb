@@ -8,8 +8,8 @@ RSpec.describe Recipe, type: :model do
     end
 
     it 'chef id should not be nil' do
-        @recipe.chef_id = nil
-        expect(@recipe.valid?).to eq(false)
+      @recipe.chef_id = nil
+      expect(@recipe.valid?).to eq(false)
     end
 
     it 'recipe with name and description should be valid' do
