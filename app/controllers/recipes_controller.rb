@@ -1,4 +1,6 @@
 # Controlling the routes for recipes
 class RecipesController < ApplicationController
-  def index; end
+  def index
+    @recipes = Recipe.all
+  end
 end
