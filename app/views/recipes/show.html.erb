@@ -1,16 +1,23 @@
-<h1 align="center"> Recipe Name: <%= @recipe.name.capitalize %></h1>
-<div class="well col-md-8 col-md-offset-2">
-  <h4 class="description">
-    <strong> Description: </strong>
+<%= render 'shared/page_title', title: @recipe.name %>
+
+<hr />
+<div class="well col card">
+  <h4 class="center description">
+    <strong> Steps: </strong>
   </h4>
   <hr />
-  <%= @recipe.description %>
+  <%= simple_format(@recipe.description) %>
   <hr />
-  <p>
-    Created by:
-  </p>
-  <p>
-    <small><%= @recipe.chef.name %> </small>
-    <div class="pull-right"> created: <%= time_ago_in_words(@recipe.created_at) %> ago </div>
-  </p>
+  <div class="float-right">
+    <p class="center">
+      <em>Created by:</em>
+    </p>
+    <p class="center">
+      <%= link_to image(100), recipe_path(@recipe) %>
+    </p>
+    <p class="center">
+      <small><%= @recipe.chef.name.capitalize %> </small>
+      <div class="center"><%= time_ago_in_words(@recipe.created_at) %> ago </div>
+    </p>
+  </div>
 </div>
