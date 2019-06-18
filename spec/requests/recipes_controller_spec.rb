@@ -59,4 +59,16 @@ RSpec.describe 'RecipesController', type: :request do
       expect(response.body).to match(@chef.name)
     end
   end
+
+  context 'GET /recipes/new' do
+    it 'new recipe route should exist' do
+      get new_recipes_path
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should render new template' do
+      get new_recipes_path
+      expect(response).to render_template(:new)
+    end
+  end
 end
