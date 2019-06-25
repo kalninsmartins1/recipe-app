@@ -19,8 +19,12 @@
       <div class="center"><%= time_ago_in_words(@recipe.created_at) %> ago </div>
     </p>
     <div class="row justify-content-center">
-      <div class="col-md-5 center">
-        [ <%= link_to 'Edit', edit_recipe_path(@recipe) %> ]
+      <div class="col-md-5 center bottom-margin">
+        <%= link_to "Edit", edit_recipe_path(@recipe),
+                    class: 'btn btn-xs btn-warning text-white' %>
+        <%= link_to "Delete", recipe_path(@recipe), method: :delete,
+                    data: { confirm: "Are you sure you want to delete?" },
+                    class: "btn btn-xs btn-danger text-white" %>
       </div>
     </div>
   </div>

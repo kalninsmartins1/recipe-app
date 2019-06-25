@@ -35,11 +35,11 @@ RSpec.describe 'RecipesEditController', type: :request do
   end
 
   context 'valid recipe update' do
-    NAME = 'sweet potatoe'.freeze
-    DESCRIPTION = 'Boil, prepare dip, enjoy !'.freeze
+    R_NAME = 'sweet potatoe'.freeze
+    R_DESCRIPTION = 'Boil, prepare dip, enjoy !'.freeze
 
     def valid_recipe_patch
-      patch recipe_path(@recipe), params: {recipe: {name: NAME, description: DESCRIPTION}}
+      patch recipe_path(@recipe), params: {recipe: {name: R_NAME, description: R_DESCRIPTION}}
     end
 
     before(:each) do
@@ -56,12 +56,16 @@ RSpec.describe 'RecipesEditController', type: :request do
     end
 
     it 'should display recipe name' do
-      expect(response.body).to match(NAME.capitalize)
+      expect(response.body).to match(R_NAME.capitalize)
     end
 
     it 'should display recipe description' do
       puts response.body
-      expect(response.body).to match(DESCRIPTION)
+      expect(response.body).to match(R_DESCRIPTION)
+    end
+
+    it 'should have link to edit recipe' do
+      expect(response.body).to match("href=\"#{edit_recipe_path(@recipe)}\">Edit</a>")
     end
   end
 end
