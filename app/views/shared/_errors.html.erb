@@ -1,0 +1,20 @@
+<% if obj.errors.any? then %>
+  <div class="row">
+    <div class="col-md-8 cold-md-offset-2 text-light">
+      <div class="card bg-danger">
+        <div class="card-heading">
+          <h2 class="card-title">
+            <%= pluralize(obj.errors.count, 'error') %> prevented <% obj.class %> to be submitted:
+          </h2>
+          <div class="card-body">
+              <ul>
+                <% obj.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

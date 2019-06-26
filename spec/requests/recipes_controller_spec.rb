@@ -58,6 +58,11 @@ RSpec.describe 'RecipesController', type: :request do
       get recipe_path(@recipe1)
       expect(response.body).to match(@chef.name)
     end
+
+    it 'should have a link to recipe index' do
+      get recipe_path(@recipe1)
+      expect(response.body).to match("href=\"#{recipes_path}\">Show all recipes</a>")
+    end
   end
 
   context 'GET /recipes/new' do

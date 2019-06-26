@@ -20,6 +20,8 @@
     </p>
     <div class="row justify-content-center">
       <div class="col-md-5 center bottom-margin">
+        <%= link_to "Show all recipes", recipes_path,
+                    class: 'btn btn-xs btn-primary text-white' %>
         <%= link_to "Edit", edit_recipe_path(@recipe),
                     class: 'btn btn-xs btn-warning text-white' %>
         <%= link_to "Delete", recipe_path(@recipe), method: :delete,
