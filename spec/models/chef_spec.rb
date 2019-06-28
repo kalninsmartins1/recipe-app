@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Chef, type: :model do
   context 'validation tests' do
     before(:each) do
-      @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com')
+      @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
     end
 
     context 'name' do
@@ -62,6 +62,18 @@ RSpec.describe Chef, type: :model do
         @chef.email = mixed_case_email
         @chef.save
         expect(@chef.reload.email).to eq(mixed_case_email.downcase)
+      end
+    end
+
+    context 'password' do
+      it 'should be present' do
+        @chef.password = @chef.password_confirmation = ' '
+        expect(@chef.valid?).to eq(false)
+      end
+
+      it 'should be atleast 5 characters' do
+        @chef.password = @chef.password_confirmation = 'w' * 4
+        expect(@chef.valid?).to eq(false)
       end
     end
   end

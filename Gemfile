@@ -21,6 +21,8 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
+# Provides secure password authentication
+gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

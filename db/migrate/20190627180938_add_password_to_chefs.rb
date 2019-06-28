@@ -1,0 +1,6 @@
+# Adds a password field to chefs table
+class AddPasswordToChefs < ActiveRecord::Migration[5.2]
+  def change
+    add_column :chefs, :password_digest, :string
+  end
+end

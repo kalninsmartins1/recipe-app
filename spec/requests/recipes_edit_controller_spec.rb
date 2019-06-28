@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'RecipesEditController', type: :request do
   before(:each) do
-    @chef = Chef.create!(name: 'Peter', email: 'peter12@awesome.com')
+    @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
     @recipe = @chef.recipes.new(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
     @recipe.save!
   end
