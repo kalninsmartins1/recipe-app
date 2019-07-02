@@ -60,7 +60,6 @@ RSpec.describe 'RecipesEditController', type: :request do
     end
 
     it 'should display recipe description' do
-      puts response.body
       expect(response.body).to match(R_DESCRIPTION)
     end
 

@@ -1,0 +1,18 @@
+<% recipes.each do |recipe| %>
+  <div class="row">
+      <% if show_chef_image %>
+        <div class="col-md-2 card">
+          <section class="center chef_info">
+            <%= image(120) %>
+          </section>
+        </div>
+      <% end %>
+      <div class="col-md well card">
+        <h4><%= link_to(recipe.name.capitalize, recipe_path(recipe)) %></h4>
+        <p><%= truncate(recipe.description, length: 150) %></p>
+        <span class="quite">
+          Created <small><%= time_ago_in_words(recipe.created_at) %> ago</small>
+        </span>
+      </div>
+  </div>
+<% end %>

@@ -1,18 +1,2 @@
 <%= render 'shared/page_title', title: 'All recipes' %>
-
-<% @recipes.each do |recipe| %>
-  <div class="row">
-      <div class="col-md-2 card">
-        <section class="center chef_info">
-          <%= image(120) %>
-        </section>
-      </div>
-      <div class="col-md well card">
-        <h4><%= link_to(recipe.name, recipe_path(recipe)) %></h4>
-        <p><%= truncate(recipe.description, length: 150) %></p>
-        <span class="quite">
-          Created <small><%= time_ago_in_words(recipe.created_at) %> ago</small>
-        </span>
-      </div>
-  </div>
-<% end %>
+<%= render 'list_recipes', recipes: @recipes, show_chef_image: true %>
