@@ -6,4 +6,7 @@
     </section>
   </div>
 </div>
+<div class="row card">
+  Email: <%= @chef.email %>
+</div>
 <%= render 'recipes/list_recipes', recipes: @chef.recipes, show_chef_image: false %>

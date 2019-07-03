@@ -7,5 +7,5 @@ class Chef < ApplicationRecord
                     length: {within: 3..320},
                     email_format: true,
                     uniqueness: {case_sensitive: false}
-  validates :password, presence: true, length: {within: 5..16}
+  validates :password, allow_blank: true, length: {within: 5..16}
 end
