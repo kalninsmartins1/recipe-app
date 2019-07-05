@@ -1,5 +1,7 @@
 @import "bootstrap";
 
+$base_color: rgb(170, 223, 165);
+
 html,
 body {
     height: 100%;
@@ -12,11 +14,11 @@ body {
 }
 
 .navbar {
-  background-color: rgb(170, 223, 165) !important;
+  background-color: $base_color !important;
 }
 
 .footer {
-  background-color: rgb(170, 223, 165);
+  background-color: $base_color;
   clear: both;
   position: relative;
   width: 100%;
@@ -26,7 +28,6 @@ body {
 
 .container {
   position: relative;
-  height: 100%;
   min-height: 100%;
 }
 
@@ -71,7 +72,7 @@ body {
 }
 
 .btn-xlarge {
-  background-color: rgb(170, 223, 165);
+  background-color: $base_color;
 }
 
 .btn-xlarge:hover {
@@ -84,11 +85,11 @@ body {
 }
 
 .well a {
-  color: rgb(170, 223, 165);
+  color: $base_color;
 }
 
 .colormatch a {
-  color: rgb(170, 223, 165);
+  color: $base_color;
 }
 
 .card {
@@ -106,4 +107,15 @@ body {
 
 .bottom-margin {
   margin-bottom: 10px;
+}
+
+.listing {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.chef-title {
+  color: $base_color;
+  font-weight: bold;
+  font-size: 1.25em;
 }
