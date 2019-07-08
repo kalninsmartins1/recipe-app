@@ -9,4 +9,11 @@
 <div class="row card">
   Email: <%= @chef.email %>
 </div>
-<%= render 'recipes/list_recipes', recipes: @chef.recipes, show_chef_image: false %>
+
+<%= render 'shared/will_paginate', objects: @chef_recipes %>
+
+<div align="center">
+  <%= render 'recipes/list_recipes', recipes: @chef_recipes, show_chef_image: false %>
+</div>
+
+<%= render 'shared/will_paginate', objects: @chef_recipes %>

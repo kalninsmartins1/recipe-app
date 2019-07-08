@@ -1,2 +1,5 @@
 <%= render 'shared/page_title', title: 'All recipes' %>
+
+<%= render 'shared/will_paginate', objects: @recipes %>
 <%= render 'list_recipes', recipes: @recipes, show_chef_image: true %>
+<%= render 'shared/will_paginate', objects: @recipes %>

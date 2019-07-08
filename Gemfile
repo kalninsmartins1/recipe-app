@@ -23,6 +23,9 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Provides secure password authentication
 gem 'bcrypt', '~> 3.1.7'
+# Provides multiple page selection for object listings
+gem 'will_paginate', '>= 3.1.7'
+gem 'bootstrap-will_paginate', '>= 1.0.0'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

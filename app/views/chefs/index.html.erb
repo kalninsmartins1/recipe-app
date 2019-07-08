@@ -1,6 +1,7 @@
 <%= render 'shared/page_title', title: "Chefs listing" %>
 
 <div class="container" align="center">
+  <%= render 'shared/will_paginate', objects: @chefs %>
   <% @chefs.each do |chef| %>
     <ul class="listing">
       <div class="row justify-content-center">
@@ -12,4 +13,5 @@
       </div>
     </ul>
   <% end %>
+  <%= render 'shared/will_paginate', objects: @chefs %>
 </div>

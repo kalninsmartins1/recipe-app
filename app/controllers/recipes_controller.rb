@@ -3,7 +3,7 @@ class RecipesController < ApplicationController
   before_action :find_recipe, only: [:show, :update, :edit, :destroy]
 
   def index
-    @recipes = Recipe.all
+    @recipes = Recipe.paginate(page: params[:page], per_page: 5)
   end
 
   def show; end
@@ -14,7 +14,7 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
-    @recipe.chef = Chef.first
+    @recipe.chef = Chef.first # Todo change to logged in chef
     if @recipe.save
       redirect_to recipe_path(@recipe)
       flash[:success] = 'Recipe created successfully !'
