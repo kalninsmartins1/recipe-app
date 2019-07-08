@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Chef, type: :model do
-  context 'validation tests' do
-    before(:each) do
-      @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-    end
+  before(:each) do
+    @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
+  end
 
+  context 'validation tests' do
     context 'name' do
       it 'should be present' do
         @chef.name = ' '
@@ -76,5 +76,11 @@ RSpec.describe Chef, type: :model do
         expect(@chef.valid?).to eq(false)
       end
     end
+  end
+
+  it 'associated recipes are deleted when chef is deleted' do
+    @chef.recipes.create(name: 'test', description: 'testing123')
+    @chef.save!
+    expect { @chef.destroy }.to change { Recipe.count }.by(-1)
   end
 end
