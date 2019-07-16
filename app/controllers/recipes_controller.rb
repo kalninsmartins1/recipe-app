@@ -1,6 +1,8 @@
 # Controlling the routes for recipes
 class RecipesController < ApplicationController
   before_action :find_recipe, only: [:show, :update, :edit, :destroy]
+  before_action :require_chef, except: [:index, :show]
+  before_action :require_same_chef, only: [:update, :edit, :destroy]
 
   def index
     @recipes = Recipe.paginate(page: params[:page], per_page: 5)
@@ -14,7 +16,7 @@ class RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
-    @recipe.chef = Chef.first # Todo change to logged in chef
+    @recipe.chef = current_chef
     if @recipe.save
       redirect_to recipe_path(@recipe)
       flash[:success] = 'Recipe created successfully !'
@@ -43,8 +45,15 @@ class RecipesController < ApplicationController
 
   private
 
+  def require_same_chef
+    return if current_chef.id == @recipe.chef.id
+
+    flash[:danger] = 'You cant perform this action on other chefs recipes !'
+    redirect_to recipes_path
+  end
+
   def find_recipe
-    @recipe = Recipe.find(params[:id])
+    @recipe = ValidRecipeDecorator.find(params[:id])
   end
 
   def recipe_params

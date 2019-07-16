@@ -33,6 +33,7 @@ RSpec.describe 'ChefsShowController', type: :request do
   context 'delete chef' do
     def request_delete_chef
       @chef.save!
+      login(@chef.email, @chef.password)
       delete chef_path(@chef)
     end
 

@@ -5,6 +5,7 @@ RSpec.describe 'RecipesEditController', type: :request do
     @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
     @recipe = @chef.recipes.new(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
     @recipe.save!
+    login(@chef.email, @chef.password)
   end
 
   it 'should have edit template' do

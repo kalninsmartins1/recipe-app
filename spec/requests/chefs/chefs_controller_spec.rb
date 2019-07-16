@@ -29,8 +29,9 @@ RSpec.describe 'ChefsController', type: :request do
     end
 
     context 'valid submission' do
+      CHEF_JANIS_EMAIL = 'janis123@inbox.lv'.freeze
       def post_valid_chef
-        post chefs_path, params: {chef: {name: 'Janis', email: 'janis123@inbox.lv',
+        post chefs_path, params: {chef: {name: 'Janis', email: CHEF_JANIS_EMAIL,
                                          password: 'parole', password_confirmation: 'parole'}}
       end
 
@@ -47,6 +48,12 @@ RSpec.describe 'ChefsController', type: :request do
       it 'flash messages are not empty' do
         post_valid_chef
         expect(flash.empty?).to eq(false)
+      end
+
+      it 'created chef is logged in' do
+        post_valid_chef
+        chef = Chef.find_by(email: CHEF_JANIS_EMAIL)
+        expect(session[:chef_id]).to eq(chef.id)
       end
     end
   end

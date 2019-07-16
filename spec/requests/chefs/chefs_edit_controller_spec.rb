@@ -9,6 +9,7 @@ RSpec.describe 'ChefEditController', type: :request do
 
     @recipe1.save!
     @recipe2.save!
+    login(@chef.email, @chef.password)
   end
 
   it 'has edit route' do

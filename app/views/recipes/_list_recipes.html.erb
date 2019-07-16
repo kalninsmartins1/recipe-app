@@ -10,6 +10,17 @@
       <div class="col-md well card">
         <h4><%= link_to(recipe.name.capitalize, recipe_path(recipe)) %></h4>
         <p><%= truncate(recipe.description, length: 150) %></p>
+        <div class="row">
+          <% if logged_in? && recipe.chef.id == current_chef.id %>
+            <div class="col">
+              <%= link_to "Edit", edit_recipe_path(recipe),
+                          class: 'btn btn-xs btn-warning text-white' %>
+              <%= link_to "Delete", recipe_path(recipe), method: :delete,
+                          data: { confirm: "Are you sure you want to delete?" },
+                          class: "btn btn-xs btn-danger text-white" %>
+            </div>
+          <% end %>
+        </div>
         <span class="quite">
           Created <small><%= time_ago_in_words(recipe.created_at) %> ago</small>
         </span>

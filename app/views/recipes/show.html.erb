@@ -22,11 +22,13 @@
       <div class="col-md-5 center bottom-margin">
         <%= link_to "Show all recipes", recipes_path,
                     class: 'btn btn-xs btn-primary text-white' %>
-        <%= link_to "Edit", edit_recipe_path(@recipe),
-                    class: 'btn btn-xs btn-warning text-white' %>
-        <%= link_to "Delete", recipe_path(@recipe), method: :delete,
-                    data: { confirm: "Are you sure you want to delete?" },
-                    class: "btn btn-xs btn-danger text-white" %>
+        <% if logged_in? && @recipe.chef.id == current_chef.id %>
+          <%= link_to "Edit", edit_recipe_path(@recipe),
+                      class: 'btn btn-xs btn-warning text-white' %>
+          <%= link_to "Delete", recipe_path(@recipe), method: :delete,
+                      data: { confirm: "Are you sure you want to delete?" },
+                      class: "btn btn-xs btn-danger text-white" %>
+        <% end %>
       </div>
     </div>
   </div>

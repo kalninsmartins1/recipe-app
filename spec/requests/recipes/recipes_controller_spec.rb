@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/login_helper'
 
 RSpec.describe 'RecipesController', type: :request do
   before(:each) do
@@ -12,23 +13,23 @@ RSpec.describe 'RecipesController', type: :request do
   end
 
   context 'GET /recipes' do
-    it 'the index route should exist' do
+    before(:each) do
       get recipes_path
+    end
+
+    it 'the index route should exist' do
       expect(response).to have_http_status(200)
     end
 
     it 'should render index template' do
-      get recipes_path
       expect(response).to render_template(:index)
     end
 
     it 'should display recipe1 name as hyperlink' do
-      get recipes_path
       assert_select('a[href=?]', recipe_path(@recipe1), text: @recipe1.name)
     end
 
     it 'should display recipe2 name as hyperlink' do
-      get recipes_path
       assert_select('a[href=?]', recipe_path(@recipe2), text: @recipe2.name)
     end
   end
@@ -66,13 +67,16 @@ RSpec.describe 'RecipesController', type: :request do
   end
 
   context 'GET /recipes/new' do
-    it 'new recipe route should exist' do
+    before(:each) do
+      login(@chef.email, @chef.password)
       get new_recipe_path
+    end
+
+    it 'new recipe route should exist' do
       expect(response).to have_http_status(200)
     end
 
     it 'should render new template' do
-      get new_recipe_path
       expect(response).to render_template(:new)
     end
   end
@@ -80,6 +84,7 @@ RSpec.describe 'RecipesController', type: :request do
   context 'POST /recipes' do
     context 'invalid submission' do
       before(:each) do
+        login(@chef.email, @chef.password)
         # Before each example post an invalid recipe
         post recipes_path, params: {recipe: {name: '', description: ''}}
       end
@@ -103,6 +108,7 @@ RSpec.describe 'RecipesController', type: :request do
 
       before(:each) do
         # Before each example post a valid recipe
+        login(@chef.email, @chef.password)
         post recipes_path, params: {recipe: {name: RECIPE_NAME, description: RECIPE_DESCRIPTION}}
         follow_redirect!
       end
