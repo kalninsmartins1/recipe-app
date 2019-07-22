@@ -11,7 +11,7 @@
         <h4><%= link_to(recipe.name.capitalize, recipe_path(recipe)) %></h4>
         <p><%= truncate(recipe.description, length: 150) %></p>
         <div class="row">
-          <% if logged_in? && recipe.chef.id == current_chef.id %>
+          <% if logged_in? && (recipe.chef.id == current_chef.id || current_chef.admin?) %>
             <div class="col">
               <%= link_to "Edit", edit_recipe_path(recipe),
                           class: 'btn btn-xs btn-warning text-white' %>

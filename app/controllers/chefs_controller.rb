@@ -1,7 +1,8 @@
 # Responding on request for chefs
 class ChefsController < ApplicationController
   before_action :find_chef, only: [:show, :edit, :update, :destroy]
-  before_action :require_same_chef, only: [:edit, :update, :destroy]
+  before_action :require_same_chef, only: [:edit, :update]
+  before_action :before_destroy, only: [:destroy]
 
   def index
     @chefs = Chef.paginate(page: params[:page], per_page: 5)
@@ -47,6 +48,14 @@ class ChefsController < ApplicationController
 
   def find_chef
     @chef = ValidChefDecorator.find(params[:id])
+  end
+
+  def before_destroy
+    # Only admins can delete users, but admins cant delete themselves.
+    return if current_chef.admin? && current_chef.id != @chef.id
+
+    flash[:danger] = 'You are not allowed to perform this action !'
+    redirect_to root_path
   end
 
   def require_same_chef

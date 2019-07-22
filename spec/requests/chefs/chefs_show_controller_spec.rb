@@ -9,6 +9,8 @@ RSpec.describe 'ChefsShowController', type: :request do
 
     @recipe1.save!
     @recipe2.save!
+
+    @admin_chef = Chef.create(name: 'Karlis', email: 'karlis12@ziepniekkalns.lv', password: 'parole', admin: true)
   end
 
   context 'view chef' do
@@ -33,7 +35,7 @@ RSpec.describe 'ChefsShowController', type: :request do
   context 'delete chef' do
     def request_delete_chef
       @chef.save!
-      login(@chef.email, @chef.password)
+      login(@admin_chef.email, @admin_chef.password)
       delete chef_path(@chef)
     end
 

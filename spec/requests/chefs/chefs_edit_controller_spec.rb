@@ -9,7 +9,15 @@ RSpec.describe 'ChefEditController', type: :request do
 
     @recipe1.save!
     @recipe2.save!
+
     login(@chef.email, @chef.password)
+  end
+
+  NEW_CHEF_NAME = 'Karlis'.freeze
+  NEW_CHEF_EMAIL = 'karlisliepa@veiksme.lv'.freeze
+
+  def valid_chef_patch
+    patch chef_path(@chef), params: {chef: {name: NEW_CHEF_NAME, email: NEW_CHEF_EMAIL}}
   end
 
   it 'has edit route' do
@@ -35,28 +43,42 @@ RSpec.describe 'ChefEditController', type: :request do
   end
 
   context 'accept valid update' do
-    NEW_CHEF_NAME = 'Karlis'.freeze
-    NEW_CHEF_EMAIL = 'karlisliepa@veiksme.lv'.freeze
-
-    before(:each) do
-      patch chef_path(@chef), params: {chef: {name: NEW_CHEF_NAME, email: NEW_CHEF_EMAIL}}
-      follow_redirect!
-    end
-
     it 'redirects to show template' do
+      valid_chef_patch
+      follow_redirect!
       expect(response).to render_template(:show)
     end
 
     it 'flash is not empty' do
+      valid_chef_patch
+      follow_redirect!
       expect(flash.empty?).to eq(false)
     end
 
     it 'name should be updated' do
+      valid_chef_patch
+      follow_redirect!
       expect(response.body).to match(NEW_CHEF_NAME)
     end
 
     it 'email should be updated' do
+      valid_chef_patch
+      follow_redirect!
       expect(response.body).to match(NEW_CHEF_EMAIL)
+    end
+  end
+
+  context 'admin user updating other users' do
+    it 'valid update' do
+      admin_chef = Chef.create(name: 'Karlis', email: 'karlis12@varaviksne.lv', password: 'parole', admin: true)
+      login(admin_chef.email, admin_chef.password)
+      valid_chef_patch
+    end
+
+    it 'invalid update' do
+      other_chef = Chef.create(name: 'Valdis', email: 'valdis21@zakusala.lv', password: 'parole')
+      login(other_chef.email, other_chef.password)
+      valid_chef_patch
     end
   end
 end

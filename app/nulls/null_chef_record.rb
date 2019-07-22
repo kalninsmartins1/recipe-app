@@ -10,4 +10,8 @@ class NullChefRecord
   def id
     -1
   end
+
+  def admin?
+    false
+  end
 end
