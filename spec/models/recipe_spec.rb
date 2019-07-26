@@ -1,12 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
-  context 'validation tests' do
-    before(:each) do
-      chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-      @recipe = Recipe.new(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min', chef_id: chef.id)
-    end
+  before(:each) do
+    chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
+    @recipe = Recipe.new(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min', chef_id: chef.id)
+  end
 
+  it 'has many ingredients' do
+    @recipe.save!
+    @recipe.ingredients.create(name: 'Kokosriekts')
+    @recipe.ingredients.create(name: 'Kaposts')
+    expect(@recipe.ingredients.count).to eq(2)
+  end
+
+  context 'validation tests' do
     it 'chef id should not be nil' do
       @recipe.chef_id = nil
       expect(@recipe.valid?).to eq(false)
