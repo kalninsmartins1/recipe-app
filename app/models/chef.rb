@@ -1,15 +1,16 @@
 class Chef < ApplicationRecord
   has_many :recipes, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_secure_password
   before_save { self.email = email.downcase }
 
-  validates_presence_of :name
-  validates_length_of :name, within: 3..20
+  validates :name, presence: true
+  validates :name, length: {within: 3..20}
 
-  validates_presence_of :email
-  validates_length_of :email, within: 3..320
+  validates :email, presence: true
+  validates :email, length: {within: 3..320}
   validates :email, email_format: true
-  validates_uniqueness_of :email, case_sensitive: false
+  validates :email, uniqueness: {case_sensitive: false}
 
-  validates_length_of :password, within: 5..16, allow_nil: true
+  validates :password, length: {within: 5..16}, allow_nil: true
 end

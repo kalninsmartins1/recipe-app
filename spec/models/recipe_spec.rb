@@ -2,15 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
   before(:each) do
-    chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-    @recipe = Recipe.new(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min', chef_id: chef.id)
-  end
-
-  it 'has many ingredients' do
-    @recipe.save!
-    @recipe.ingredients.create(name: 'Kokosriekts')
-    @recipe.ingredients.create(name: 'Kaposts')
-    expect(@recipe.ingredients.count).to eq(2)
+    @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'password')
+    @recipe = Recipe.new(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min', chef_id: @chef.id)
   end
 
   context 'validation tests' do
@@ -51,6 +44,22 @@ RSpec.describe Recipe, type: :model do
     it 'description should not be longr than 500 characters' do
       @recipe.description = 'a' * 501
       expect(@recipe.valid?).to eq(false)
+    end
+  end
+
+  context 'association tests' do
+    it 'has many ingredients' do
+      expect(@recipe).to respond_to(:ingredients)
+    end
+
+    it 'has many comments' do
+      expect(@recipe).to respond_to(:comments)
+    end
+
+    it 'comments are deleted when recipe is deleted' do
+      @recipe.save!
+      Comment.create(description: 'This is a comment', recipe_id: @recipe.id, chef_id: @chef.id)
+      expect { @recipe.destroy }.to change { Comment.count }.by(-1)
     end
   end
 end

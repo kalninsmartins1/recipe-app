@@ -78,9 +78,22 @@ RSpec.describe Chef, type: :model do
     end
   end
 
-  it 'associated recipes are deleted when chef is deleted' do
-    @chef.recipes.create(name: 'test', description: 'testing123')
-    @chef.save!
-    expect { @chef.destroy }.to change { Recipe.count }.by(-1)
+  context 'association tests' do
+    it 'recipes are deleted when chef is deleted' do
+      @chef.recipes.create(name: 'test', description: 'testing123')
+      @chef.save!
+      expect { @chef.destroy }.to change { Recipe.count }.by(-1)
+    end
+
+    it 'comments are deleted when chef is deleted' do
+      recipe = @chef.recipes.create(name: 'test', description: 'testing123')
+      @chef.comments.create(description: 'ulaa', recipe_id: recipe.id, chef_id: @chef.id)
+      @chef.save!
+      expect { @chef.destroy }.to change { Comment.count }.by(-1)
+    end
+
+    it 'has many comments' do
+      expect(@chef).to respond_to(:comments)
+    end
   end
 end

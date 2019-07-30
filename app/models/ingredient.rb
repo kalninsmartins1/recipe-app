@@ -3,7 +3,7 @@ class Ingredient < ApplicationRecord
   has_many :recipe_ingredients
   has_many :recipes, through: :recipe_ingredients
 
-  validates_presence_of :name
-  validates_length_of :name, within: 5..25
-  validates_uniqueness_of :name, case_sensitive: false
+  validates :name, presence: true
+  validates :name, length: {within: 5..25}
+  validates :name, uniqueness: {case_sensitive: false}
 end
