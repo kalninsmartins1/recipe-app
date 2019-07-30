@@ -12,7 +12,7 @@
       <em>Created by:</em>
     </p>
     <p class="center">
-      <%= link_to image(100), recipe_path(@recipe) %>
+      <%= link_to image(100), chef_path(@recipe.chef) %>
     </p>
     <p class="center">
       <small><%= @recipe.chef.name.capitalize %> </small>

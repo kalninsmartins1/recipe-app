@@ -22,7 +22,7 @@
           <% end %>
         </div>
         <span class="quite">
-          Created <small><%= time_ago_in_words(recipe.created_at) %> ago</small>
+          Created <small><%= time_ago_in_words(recipe.created_at) %> ago by <%= recipe.chef.name.capitalize %></small>
         </span>
       </div>
   </div>

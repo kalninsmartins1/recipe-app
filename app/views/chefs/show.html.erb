@@ -13,7 +13,11 @@
 <%= render 'shared/will_paginate', objects: @chef_recipes %>
 
 <div align="center">
-  <%= render 'recipes/list_recipes', recipes: @chef_recipes, show_chef_image: false %>
+  <% if @chef_recipes.count > 0 %>
+    <%= render 'recipes/list_recipes', recipes: @chef_recipes, show_chef_image: false %>
+  <% else %>
+    <p>No recipes have been created</p>
+  <% end %>
 </div>
 
 <%= render 'shared/will_paginate', objects: @chef_recipes %>
