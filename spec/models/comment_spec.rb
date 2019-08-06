@@ -9,9 +9,6 @@ RSpec.describe Comment, type: :model do
 
   it 'latest comments are at the top' do
     other_comment = Comment.create(description: 'I still like it !', chef_id: @chef.id, recipe_id: @recipe.id)
-
-    puts other_comment.updated_at
-    puts Comment.first.updated_at
     expect(Comment.first.id).to eq(other_comment.id)
   end
 

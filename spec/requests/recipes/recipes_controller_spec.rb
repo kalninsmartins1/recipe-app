@@ -107,18 +107,33 @@ RSpec.describe 'RecipesController', type: :request do
       RECIPE_DESCRIPTION = 'jum jum... Tik japieliek klat kakao :P'.freeze
 
       before(:each) do
-        # Before each example post a valid recipe
+        # Before each example perform a login
         login(@chef.email, @chef.password)
-        post recipes_path, params: {recipe: {name: RECIPE_NAME, description: RECIPE_DESCRIPTION}}
-        follow_redirect!
+      end
+
+      def post_valid_recipe(ingredient_ids = [])
+        post recipes_path, params: {recipe: {name: RECIPE_NAME,
+                                             description: RECIPE_DESCRIPTION,
+                                             ingredient_ids: ingredient_ids}}
       end
 
       it 'should display recipe name' do
+        post_valid_recipe
+        follow_redirect!
         expect(response.body).to match(RECIPE_NAME.capitalize)
       end
 
       it 'should display recipe description' do
+        post_valid_recipe
+        follow_redirect!
         expect(response.body).to match(RECIPE_DESCRIPTION)
+      end
+
+      it 'should have ingredients' do
+        ingredient = Ingredient.new(name: 'Coconut')
+        ingredient.save!
+        post_valid_recipe([ingredient.id])
+        expect(Recipe.find_by(name: RECIPE_NAME).ingredients.count).to_not eq(0)
       end
     end
   end
