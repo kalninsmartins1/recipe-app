@@ -29,10 +29,10 @@ RSpec.describe 'ChefsController', type: :request do
     end
 
     context 'valid submission' do
-      CHEF_JANIS_EMAIL = 'janis123@inbox.lv'.freeze
+      CHEF_JOHN_EMAIL = 'john123@test.com'.freeze
       def post_valid_chef
-        post chefs_path, params: {chef: {name: 'Janis', email: CHEF_JANIS_EMAIL,
-                                         password: 'parole', password_confirmation: 'parole'}}
+        post chefs_path, params: {chef: {name: 'John', email: CHEF_JOHN_EMAIL,
+                                         password: 'password'}}
       end
 
       it 'count in database has increased' do
@@ -52,7 +52,7 @@ RSpec.describe 'ChefsController', type: :request do
 
       it 'created chef is logged in' do
         post_valid_chef
-        chef = Chef.find_by(email: CHEF_JANIS_EMAIL)
+        chef = Chef.find_by(email: CHEF_JOHN_EMAIL)
         expect(session[:chef_id]).to eq(chef.id)
       end
     end

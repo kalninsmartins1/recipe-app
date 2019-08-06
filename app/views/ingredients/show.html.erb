@@ -1,0 +1,13 @@
+<%= render 'shared/page_title', title: @ingredient.name.capitalize %>
+
+<%= render 'shared/will_paginate', objects: @ingredient_recipes %>
+
+<div align="center">
+  <% if @ingredient_recipes.count > 0 %>
+    <%= render 'recipes/list_recipes', recipes: @ingredient_recipes, show_chef_image: false %>
+  <% else %>
+    <p>Ingredient has not been used</p>
+  <% end %>
+</div>
+
+<%= render 'shared/will_paginate', objects: @ingredient_recipes %>

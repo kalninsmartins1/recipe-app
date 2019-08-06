@@ -8,11 +8,11 @@ RSpec.describe Comment, type: :model do
   end
 
   it 'latest comments are at the top' do
-    @comment = Comment.create(description: 'I still like it !', chef_id: @chef.id, recipe_id: @recipe.id)
-    @comment.save!
-    puts @comment.updated_at
+    other_comment = Comment.create(description: 'I still like it !', chef_id: @chef.id, recipe_id: @recipe.id)
+
+    puts other_comment.updated_at
     puts Comment.first.updated_at
-    expect(Comment.first.id).to eq(@comment.id)
+    expect(Comment.first.id).to eq(other_comment.id)
   end
 
   context 'validation tests' do

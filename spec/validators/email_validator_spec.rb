@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe EmailFormatValidator do
   it 'should accept valid email' do
-    expect(EmailFormatValidator.valid?('janis123@inbox.lv')).to eq(true)
+    expect(EmailFormatValidator.valid?('john123@test.com')).to eq(true)
     expect(EmailFormatValidator.valid?('janis@inbox.lv')).to eq(true)
     expect(EmailFormatValidator.valid?('peteris@gmeils.com')).to eq(true)
   end

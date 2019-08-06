@@ -10,6 +10,9 @@
       <div class="col-md well card">
         <h4><%= link_to(recipe.name.capitalize, recipe_path(recipe)) %></h4>
         <p><%= truncate(recipe.description, length: 150) %></p>
+        <% if recipe.ingredients.any? %>
+          <p>Ingredients: <%= render recipe.ingredients %></p>
+        <% end %>
         <div class="row">
           <% if logged_in? && (recipe.chef.id == current_chef.id || current_chef.admin?) %>
             <div class="col">

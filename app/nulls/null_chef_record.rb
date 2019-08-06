@@ -5,7 +5,9 @@ class NullChefRecord
     false
   end
 
-  def update(params); end
+  def update(_params)
+    false
+  end
 
   def id
     -1

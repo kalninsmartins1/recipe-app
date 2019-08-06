@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'ingredients/index'
+  get 'ingredients/show'
   root 'pages#home'
 
   get '/pages/home', to: 'pages#home'
@@ -10,4 +12,6 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/login', to: 'sessions#destroy'
+
+  resources :ingredients, except: [:destroy]
 end

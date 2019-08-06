@@ -9,7 +9,9 @@ class NullRecipeRecord
     'N/A'
   end
 
-  def update(params); end
+  def update(_params)
+    false
+  end
 
   def chef
     NullChefRecord.new
