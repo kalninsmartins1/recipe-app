@@ -4,17 +4,19 @@ require 'support/login_helper'
 RSpec.describe 'RecipesController', type: :request do
   before(:each) do
     @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-    @recipe1 = @chef.recipes.new(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
-    @recipe2 = @chef.recipes.new(name: 'Variti burkani',
-                                 description: 'Varam 15 minutes katla kopa ar kiploku, tad pievienojam merci pec izveles')
-
-    @recipe1.save!
-    @recipe2.save!
+    @recipe1 = @chef.recipes.create(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
+    @recipe2 = @chef.recipes.create(name: 'Variti burkani', description: 'Varam 15 minutes katla kopa ar kiploku...')
   end
 
   context 'GET /recipes' do
     before(:each) do
+      Comment.create(description: 'Hey !', recipe_id: @recipe1.id, chef_id: @chef.id)
+      Comment.create(description: 'Jeees !', recipe_id: @recipe1.id, chef_id: @chef.id)
       get recipes_path
+    end
+
+    it 'should display number of comments' do
+      expect(response.body).to match('2 Comments')
     end
 
     it 'the index route should exist' do
@@ -63,6 +65,13 @@ RSpec.describe 'RecipesController', type: :request do
     it 'should have a link to recipe index' do
       get recipe_path(@recipe1)
       expect(response.body).to match("href=\"#{recipes_path}\">Show all recipes</a>")
+    end
+
+    it 'should display comments' do
+      comment = Comment.new(description: 'this is spectacularly awesome test', chef_id: @chef.id, recipe_id: @recipe1.id)
+      comment.save!
+      get recipe_path(@recipe1)
+      expect(response.body).to match(comment.description)
     end
   end
 

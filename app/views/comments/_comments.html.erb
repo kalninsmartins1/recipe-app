@@ -1,0 +1,8 @@
+
+<%= render 'shared/will_paginate', objects: comments %>
+
+<% comments.each do |comment| %>
+  <%= render(partial: 'comments/comment', object: comment) %>
+<% end %>
+
+<%= render 'shared/will_paginate', objects: comments %>
