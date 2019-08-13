@@ -27,10 +27,12 @@ RSpec.describe 'CommentsControllerCreate', type: :request do
     end
 
     it 'valid comment is accepted' do
-      comment = 'Hello World !'
-      expect { post_comment(comment) }.to change { Comment.count }.by(1)
-      follow_redirect!
-      expect(response.body).to match(comment)
+      expect { post_comment('Hello World !') }.to change { Comment.count }.by(1)
+    end
+
+    it 'should broadcast to comments channel' do
+      comment = 'Comment to broadcast :P'
+      expect { post_comment(comment).to have_broadcasted_to('comments').with(text: comment) }
     end
   end
 end

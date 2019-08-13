@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     chef = ValidChefDecorator.find_by(email: session_params[:email])
 
     if chef.authenticate(session_params[:password] || ' ')
-      session[:chef_id] = chef.id # At user end stores encrypted chef id in cookies
+      cache_chef_id(chef.id)
       flash[:success] = 'You have successfully logged in !'
       redirect_to chef_path(chef)
     else

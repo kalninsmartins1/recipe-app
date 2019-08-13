@@ -10,6 +10,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def cache_chef_id(id)
+    session[:chef_id] = id
+    cookies.signed[:chef_id] = id
+  end
+
   def logged_in?
     current_chef.id == session[:chef_id]
   end
