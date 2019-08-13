@@ -1,0 +1,10 @@
+<div class="message">
+  <p>
+    <%= image(50) %>
+    <strong><%= message.chef.name.capitalize %></strong>
+    <span class="content">
+      <%= message.content %>
+      <br>
+      Created <%= time_ago_in_words(message.created_at) %> ago
+    </span>
+</div>

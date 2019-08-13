@@ -92,6 +92,12 @@ RSpec.describe Chef, type: :model do
       expect { @chef.destroy }.to change { Comment.count }.by(-1)
     end
 
+    it 'messages are deleted when chef is deleted' do
+      @chef.messages.create(content: 'This is a message')
+      @chef.save!
+      expect { @chef.destroy }.to change { Message.count }.by(-1)
+    end
+
     it 'has many comments' do
       expect(@chef).to respond_to(:comments)
     end

@@ -1,4 +1,5 @@
 module ApplicationCable
+  # Base class for all the connections within recipe app
   class Connection < ActionCable::Connection::Base
     identified_by :current_chef
 

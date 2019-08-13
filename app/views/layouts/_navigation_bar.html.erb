@@ -11,28 +11,31 @@
       <li class="nav-item">
         <a class="nav-link" href="<%= chefs_path %>">Chefs</a>
       </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Recipes
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="<%= recipes_path %>">View all recipes</a>
-            <% if logged_in? %>
-              <a class="dropdown-item" href="<%= new_recipe_path %>">New recipe</a>
-            <% end %>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Ingredient
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="<%= ingredients_path %>">All ingredients</a>
-            <% if current_chef.admin? %>
-              <a class="dropdown-item" href="<%= new_ingredient_path %>">New ingrediet</a>
-            <% end %>
-          </div>
-        </li>
+      <li class="nav-item">
+        <%= link_to 'Chefs chat', chat_path, class: 'nav-link' %>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Recipes
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="<%= recipes_path %>">View all recipes</a>
+          <% if logged_in? %>
+            <a class="dropdown-item" href="<%= new_recipe_path %>">New recipe</a>
+          <% end %>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Ingredient
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="<%= ingredients_path %>">All ingredients</a>
+          <% if current_chef.admin? %>
+            <a class="dropdown-item" href="<%= new_ingredient_path %>">New ingrediet</a>
+          <% end %>
+        </div>
+      </li>
       <% if logged_in? %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
