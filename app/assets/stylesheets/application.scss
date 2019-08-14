@@ -114,6 +114,42 @@ body {
   list-style: none;
   padding-left: 0px;
 }
+.center-block {
+  float: none;
+}
+
+.chat-container {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 150px;
+  width: 80;
+}
+
+.message-container {
+  .form-control {
+    float: left;
+    width: 80%;
+  }
+  .btn {
+    float: right;
+    position: relative;
+    height: 54px !important;
+    width: 18%;
+  }
+}
+
+.message {
+  padding-left: 5px;
+  padding-top: 10px;
+}
+
+.messages {
+  border: 1px solid #eaeaea;
+  height: 16em;
+  position: relative;
+  overflow: auto;
+}
 
 .chef-title {
   color: $base_color;
@@ -124,8 +160,4 @@ body {
 .input_checkbox input {
   width: auto !important;
   margin: 20px;
-}
-
-.button-margin {
-  margin: 15px;
 }

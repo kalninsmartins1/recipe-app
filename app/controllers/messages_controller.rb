@@ -4,8 +4,9 @@ class MessagesController < ApplicationController
     message = Message.new(message_params)
     message.chef_id = current_chef.id
     if message.save
-      flash[:sucess] = 'Message sucessfully sent !'
-      redirect_to chat_path
+      ActionCable.server.broadcast('chat_room_channel',
+                                   message: render_message(message),
+                                   chef: message.chef.name)
     else
       redirect_back(fallback_location: chat_path)
     end
@@ -15,5 +16,9 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:content)
+  end
+
+  def render_message(message)
+    render(partial: 'message', locals: {message: message})
   end
 end

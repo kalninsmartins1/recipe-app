@@ -14,7 +14,7 @@ RSpec.describe 'ChefEditController', type: :request do
   end
 
   NEW_CHEF_NAME = 'Karlis'.freeze
-  NEW_CHEF_EMAIL = 'karlisliepa@veiksme.lv'.freeze
+  NEW_CHEF_EMAIL = 'karlisliepa@veiksme.com'.freeze
 
   def valid_chef_patch
     patch chef_path(@chef), params: {chef: {name: NEW_CHEF_NAME, email: NEW_CHEF_EMAIL}}
@@ -27,7 +27,7 @@ RSpec.describe 'ChefEditController', type: :request do
 
   context 'reject invalid update' do
     def invalid_chef_patch
-      patch chef_path(@chef), params: {chef: {name: '', email: 'test@test.lv'}}
+      patch chef_path(@chef), params: {chef: {name: '', email: 'test@test.com'}}
     end
 
     it 'is not redirected away from edit template' do
@@ -70,13 +70,13 @@ RSpec.describe 'ChefEditController', type: :request do
 
   context 'admin user updating other users' do
     it 'valid update' do
-      admin_chef = Chef.create(name: 'Karlis', email: 'karlis12@varaviksne.lv', password: 'parole', admin: true)
+      admin_chef = Chef.create(name: 'Karlis', email: 'karlis12@varaviksne.com', password: 'parole', admin: true)
       login(admin_chef.email, admin_chef.password)
       valid_chef_patch
     end
 
     it 'invalid update' do
-      other_chef = Chef.create(name: 'Valdis', email: 'valdis21@zakusala.lv', password: 'parole')
+      other_chef = Chef.create(name: 'Valdis', email: 'valdis21@zakusala.com', password: 'parole')
       login(other_chef.email, other_chef.password)
       valid_chef_patch
     end

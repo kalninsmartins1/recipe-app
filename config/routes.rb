@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
-  get '/chat', to: 'chatrooms#show', as: 'chat'
+  get '/chat', to: 'chat_rooms#show', as: 'chat'
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/login', to: 'sessions#destroy'

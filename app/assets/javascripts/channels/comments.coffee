@@ -6,5 +6,5 @@ App.comments = App.cable.subscriptions.create "CommentsChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    $("#comment-description").val("")
-    $("#messages").prepend(data)
+    $('#messages').prepend(data)
+    $('#comment_description').val('')

@@ -6,7 +6,7 @@ RSpec.describe Ingredient, type: :model do
   end
 
   it 'has many recipes' do
-    chef = Chef.create(name: 'Janis', email: 'janis31@lidotaji.lv', password: 'parole')
+    chef = Chef.create(name: 'Janis', email: 'janis31@lidotaji.com', password: 'parole')
     recipe1 = chef.recipes.create(name: 'Cepts calis', description: 'Vesals calis tiek cepts 1 stundu un 30 minutes cepes krasni.')
     recipe2 = chef.recipes.create(name: 'Kartupelu biesputra',
                                   description: 'Varam kartupelus ar nedaudz udens maisot, kamer izveidojas bieza masa.')

@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Message, type: :model do
   before(:each) do
-    chef = Chef.create(name: 'Peter', email: 'peter12@test.lv', password: 'password')
-    @message = Message.new(content: 'This is a nice content !', chef_id: chef.id)
+    @chef = Chef.create(name: 'Peter', email: 'peter12@test.com', password: 'password')
+    @message = Message.new(content: 'This is a nice content !', chef_id: @chef.id)
   end
 
   it 'chef_id cant be blank' do

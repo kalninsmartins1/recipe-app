@@ -43,7 +43,7 @@
       <%= form_for([@recipe, @comment], remote: true, :html => {class: "form-horizontal",
                                                 role: "form"}) do |f| %>
         <div class="form-group">
-          <div class="col" id="comment-description">
+          <div class="col">
             <%= f.text_area :description, rows: 8, class: "form-control",
                                       placeholder: "Enter comment here" %>
           </div>

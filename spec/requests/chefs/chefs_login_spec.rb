@@ -30,7 +30,7 @@ RSpec.describe 'ChefsLogin', type: :request do
 
   context 'valid login' do
     before(:each) do
-      chef = Chef.create!(name: 'Alberts', email: 'korektsepasts@korekts.lv', password: 'parole')
+      chef = Chef.create!(name: 'Alberts', email: 'korektsepasts@korekts.com', password: 'parole')
       login(chef.email, chef.password)
     end
 

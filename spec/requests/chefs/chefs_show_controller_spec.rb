@@ -10,7 +10,7 @@ RSpec.describe 'ChefsShowController', type: :request do
     @recipe1.save!
     @recipe2.save!
 
-    @admin_chef = Chef.create(name: 'Karlis', email: 'karlis12@ziepniekkalns.lv', password: 'parole', admin: true)
+    @admin_chef = Chef.create(name: 'Karlis', email: 'karlis12@ziepniekkalns.com', password: 'parole', admin: true)
   end
 
   context 'view chef' do
