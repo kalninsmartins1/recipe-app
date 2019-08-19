@@ -1,11 +1,8 @@
 module Types
+  # Add root-level fields here.
+  # They will be entry points for queries on your schema.
   class QueryType < Types::BaseObject
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
-
-    field :all_chefs, [ChefType], null: false
-    def all_chefs
-      Chef.all
-    end
+    field :all_chefs, function: Resolvers::ChefsSearch
+    field :all_recipes, function: Resolvers::RecipesSearch
   end
 end

@@ -1,3 +1,4 @@
+# Controller for handling graphql requests
 class GraphqlController < ApplicationController
   def execute
     variables = ensure_hash(params[:variables])
@@ -9,8 +10,9 @@ class GraphqlController < ApplicationController
     }
     result = RecipeAppSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
-  rescue => e
+  rescue GraphQL::ExecutionError => e
     raise e unless Rails.env.development?
+
     handle_error_in_development e
   end
 
@@ -20,11 +22,7 @@ class GraphqlController < ApplicationController
   def ensure_hash(ambiguous_param)
     case ambiguous_param
     when String
-      if ambiguous_param.present?
-        ensure_hash(JSON.parse(ambiguous_param))
-      else
-        {}
-      end
+      ensure_hash_for_string(ambiguous_param)
     when Hash, ActionController::Parameters
       ambiguous_param
     when nil
@@ -34,10 +32,18 @@ class GraphqlController < ApplicationController
     end
   end
 
-  def handle_error_in_development(e)
-    logger.error e.message
-    logger.error e.backtrace.join("\n")
+  def ensure_hash_for_string(ambiguous_param)
+    if ambiguous_param.present?
+      ensure_hash(JSON.parse(ambiguous_param))
+    else
+      {}
+    end
+  end
 
-    render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 500
+  def handle_error_in_development(err)
+    logger.error err.message
+    logger.error err.backtrace.join("\n")
+
+    render json: {error: {message: err.message, backtrace: err.backtrace}, data: {}}, status: 500
   end
 end

@@ -1,4 +1,5 @@
 module Mutations
+  # GrapQL mutation for creating new chefs
   class CreateChef < BaseMutation
     # Arguments passed to the 'resolved' method
     argument :name, String, required: true
@@ -10,7 +11,6 @@ module Mutations
 
     def resolve(name: nil, email: nil, password: nil)
       Chef.create!(name: name, email: email, password: password)
-
     rescue ActiveRecord::RecordInvalid => e
       GraphQL::ExecutionError.new("Invalid input: #{e.record.errors.full_messages.join(', ')}")
     end
