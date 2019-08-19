@@ -5,7 +5,7 @@ class RecipesController < ApplicationController
   before_action :require_admin_or_same_chef, only: [:update, :edit, :destroy]
 
   def index
-    @recipes = Recipe.paginate(page: params[:page], per_page: 5)
+    @recipes = RecentlyUpdatedRecipesQuery.recipes.paginate(page: params[:page], per_page: 5)
   end
 
   def show

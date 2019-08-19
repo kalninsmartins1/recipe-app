@@ -9,6 +9,4 @@ class Recipe < ApplicationRecord
 
   validates :description, presence: true
   validates :description, length: {within: 5..500}
-
-  default_scope { order(updated_at: :desc) }
 end
