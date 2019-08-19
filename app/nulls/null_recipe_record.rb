@@ -5,11 +5,19 @@ class NullRecipeRecord
     -1
   end
 
+  def chef_id
+    -1
+  end
+
   def name
     'N/A'
   end
 
   def update(_params)
+    false
+  end
+
+  def destroy
     false
   end
 

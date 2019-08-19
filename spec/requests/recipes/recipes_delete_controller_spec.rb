@@ -1,21 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe 'RecipesDeleteController', type: :request do
+  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
+  let!(:recipe) { chef.recipes.create!(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao') }
+
   before(:each) do
-    @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-    @recipe = @chef.recipes.new(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
-    @recipe.save!
-    login(@chef.email, @chef.password)
+    login(chef.email, chef.password)
   end
 
   it 'should have delete link' do
-    get recipe_path(@recipe)
-    expect(response.body).to match("href=\"#{recipe_path(@recipe)}\">Delete</a>")
+    get recipe_path(recipe)
+    expect(response.body).to match("href=\"#{recipe_path(recipe)}\">Delete</a>")
   end
 
   context 'successfully deleting recipe' do
     def request_recipe_delete
-      delete recipe_path(@recipe)
+      delete recipe_path(recipe)
     end
 
     it 'recipe count in database is reduced' do
@@ -31,6 +31,16 @@ RSpec.describe 'RecipesDeleteController', type: :request do
     it 'flash should not be empty' do
       request_recipe_delete
       expect(flash.empty?).to eq(false)
+    end
+  end
+
+  context 'unsuccessfully deleting recipe' do
+    it 'return status code 402' do
+      chef.admin = true
+      chef.save!
+      recipe = Recipe.new(id: -1)
+      delete recipe_path(recipe)
+      expect(response).to have_http_status(402)
     end
   end
 end
