@@ -1,6 +1,6 @@
 # Class controlling access to Ingredient model
 class IngredientsController < ApplicationController
-  before_action :init_ingredient, only: [:show, :update, :edit]
+  before_action :find_ingredient, only: [:show, :update, :edit]
   before_action :require_admin, except: [:index, :show]
 
   def index
@@ -45,7 +45,7 @@ class IngredientsController < ApplicationController
     redirect_to ingredients_path
   end
 
-  def init_ingredient
+  def find_ingredient
     @ingredient = ValidIngredientDecorator.find(params[:id])
   end
 

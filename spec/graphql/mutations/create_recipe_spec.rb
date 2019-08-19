@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'CreateRecipe' do
-  let(:chef) {Chef.create(name: 'Josh', email: 'joshwelch@test.com', password: 'password')}
-  let(:test_name) {'Coconut'}
-  let(:test_description) {'Break the shell.'}
+  let(:chef) { Chef.create(name: 'Josh', email: 'joshwelch@test.com', password: 'password') }
+  let(:test_name) { 'Coconut' }
+  let(:test_description) { 'Break the shell.' }
 
   def perform(**args)
     Mutations::CreateRecipe.new(object: nil, context: {}).resolve(args)
@@ -27,7 +27,7 @@ RSpec.describe 'CreateRecipe' do
   end
 
   context 'valid chef mutation' do
-    let(:created_recipe) {perform(name: test_name, description: test_description, chef_id: chef.id)}
+    let(:created_recipe) { perform(name: test_name, description: test_description, chef_id: chef.id) }
 
     it 'created recipe is persisted' do
       expect(created_recipe.persisted?).to eq(true)

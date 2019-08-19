@@ -1,6 +1,6 @@
 # Controlling the routes for recipes
 class RecipesController < ApplicationController
-  before_action :init_recipe, only: [:show, :update, :edit, :destroy]
+  before_action :find_recipe, except: [:index, :new]
   before_action :require_chef, except: [:index, :show]
   before_action :require_admin_or_same_chef, only: [:update, :edit, :destroy]
 
@@ -55,7 +55,7 @@ class RecipesController < ApplicationController
     redirect_to recipes_path
   end
 
-  def init_recipe
+  def find_recipe
     @recipe = ValidRecipeDecorator.find(params[:id])
   end
 

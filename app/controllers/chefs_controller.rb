@@ -1,6 +1,6 @@
 # Responding on request for chefs
 class ChefsController < ApplicationController
-  before_action :init_chef, only: [:show, :edit, :update, :destroy]
+  before_action :find_chef, only: [:show, :edit, :update, :destroy]
   before_action :require_same_chef, only: [:edit, :update]
   before_action :before_destroy, only: [:destroy]
 
@@ -46,7 +46,7 @@ class ChefsController < ApplicationController
 
   private
 
-  def init_chef
+  def find_chef
     @chef = ValidChefDecorator.find(params[:id])
   end
 
