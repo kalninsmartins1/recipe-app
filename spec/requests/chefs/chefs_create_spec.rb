@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'ChefsController', type: :request do
+RSpec.describe 'ChefsCreate', type: :request do
   context 'signup' do
     it 'route exists' do
       get signup_path

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'ChefsIndexController', type: :request do
+RSpec.describe 'ChefsListing', type: :request do
   before(:each) do
     @chef1 = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
     @chef1.recipes.create(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')

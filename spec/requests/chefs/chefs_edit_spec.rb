@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'ChefEditController', type: :request do
+RSpec.describe 'ChefsEdit', type: :request do
   before(:each) do
     @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
     @recipe1 = @chef.recipes.new(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')

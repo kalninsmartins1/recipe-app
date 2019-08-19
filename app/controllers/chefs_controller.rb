@@ -39,9 +39,12 @@ class ChefsController < ApplicationController
   end
 
   def destroy
-    @chef.destroy
-    flash[:success] = 'Chef and all associated recipes has been deleted !'
-    redirect_to chefs_path
+    if @chef.destroy
+      flash[:success] = 'Chef and all associated recipes has been deleted !'
+      redirect_to chefs_path
+    else
+      render nothing: true, status: 402
+    end
   end
 
   private

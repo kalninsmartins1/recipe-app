@@ -44,7 +44,6 @@ class RecipesController < ApplicationController
       flash[:success] = 'Recipe has been sucessfuly deleted !'
       redirect_to recipes_path
     else
-      puts 'Status 402'
       render nothing: true, status: 402
     end
   end

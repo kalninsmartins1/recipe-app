@@ -9,6 +9,10 @@ class NullChefRecord
     false
   end
 
+  def destroy
+    false
+  end
+
   def id
     -1
   end
