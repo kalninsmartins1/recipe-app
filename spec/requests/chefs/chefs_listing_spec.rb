@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'ChefsListing', type: :request do
-  before(:each) do
-    @chef1 = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-    @chef1.recipes.create(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
-    @chef1.recipes.create(name: 'Variti burkani',
-                          description: 'Varam 15 minutes katla kopa ar kiploku, tad pievienojam merci pec izveles')
+  let(:chef_a) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'passwords') }
+  let(:chef_b) { Chef.create!(name: 'Jānis', email: 'janis12@awesome.com', password: 'parole2') }
 
-    @chef2 = Chef.create(name: 'Jānis', email: 'janis12@awesome.com', password: 'parole2', password_confirmation: 'parole2')
-    @chef2.recipes.create(name: 'Zirnu savtejus', description: 'Savte zirnus ar nedaudz elas, pec tam ed ar krejumu.')
+  before(:each) do
+    chef_a.recipes.create!(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
+    chef_a.recipes.create!(name: 'Variti burkani',
+                           description: 'Varam 15 minutes katla kopa ar kiploku, tad pievienojam merci pec izveles')
+    chef_b.recipes.create!(name: 'Zirnu savtejus', description: 'Savte zirnus ar nedaudz elas, pec tam ed ar krejumu.')
   end
 
   context 'has index route' do
@@ -24,12 +24,12 @@ RSpec.describe 'ChefsListing', type: :request do
 
     it 'should display chef1 name as hyperlink' do
       get chefs_path
-      assert_select('a[href=?]', chef_path(@chef1), text: @chef1.name)
+      assert_select('a[href=?]', chef_path(chef_a), text: chef_a.name)
     end
 
     it 'should display chef2 name as hyperlink' do
       get chefs_path
-      assert_select('a[href=?]', chef_path(@chef2), text: @chef2.name)
+      assert_select('a[href=?]', chef_path(chef_b), text: chef_b.name)
     end
 
     it 'should display correct recipe count for chef1' do

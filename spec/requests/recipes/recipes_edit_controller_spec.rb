@@ -1,26 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe 'RecipesEditController', type: :request do
+  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
+  let(:recipe) { chef.recipes.create!(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao') }
+  let(:ingredient) { Ingredient.create!(name: 'Coconut') }
+
   before(:each) do
-    @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-
-    @recipe = @chef.recipes.new(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
-    @recipe.save!
-
-    @ingredient = Ingredient.new(name: 'Coconut')
-    @ingredient.save!
-
-    login(@chef.email, @chef.password)
+    login(chef.email, chef.password)
   end
 
   it 'should have edit template' do
-    get edit_recipe_path(@recipe)
+    get edit_recipe_path(recipe)
     expect(response).to render_template(:edit)
   end
 
   context 'invalid recipe update' do
     def invalid_recipe_patch
-      patch recipe_path(@recipe), params: {recipe: {name: '', description: 'this is description'}}
+      patch recipe_path(recipe), params: {recipe: {name: '', description: 'this is description'}}
     end
 
     before(:each) do
@@ -45,9 +41,9 @@ RSpec.describe 'RecipesEditController', type: :request do
     R_DESCRIPTION = 'Boil, prepare dip, enjoy !'.freeze
 
     def valid_recipe_patch(ingredient_ids = [])
-      patch recipe_path(@recipe), params: {recipe: {name: R_NAME,
-                                                    description: R_DESCRIPTION,
-                                                    ingredient_ids: ingredient_ids}}
+      patch recipe_path(recipe), params: {recipe: {name: R_NAME,
+                                                   description: R_DESCRIPTION,
+                                                   ingredient_ids: ingredient_ids}}
     end
 
     it 'should redirect to show page' do
@@ -62,14 +58,14 @@ RSpec.describe 'RecipesEditController', type: :request do
     end
 
     it 'should have added new ingredient' do
-      valid_recipe_patch([@ingredient.id])
-      expect(@recipe.ingredients.count).to_not eq(0)
+      valid_recipe_patch([ingredient.id])
+      expect(recipe.ingredients.count).to_not eq(0)
     end
 
     it 'should have removed an ingredient' do
-      valid_recipe_patch([@ingredient.id])  # Add ingredient
-      valid_recipe_patch                    # Remove all ingredients
-      expect(@recipe.ingredients.count).to eq(0)
+      valid_recipe_patch([ingredient.id]) # Add ingredient
+      valid_recipe_patch                  # Remove all ingredients
+      expect(recipe.ingredients.count).to eq(0)
     end
 
     it 'should display recipe name' do
@@ -87,7 +83,7 @@ RSpec.describe 'RecipesEditController', type: :request do
     it 'should have link to edit recipe' do
       valid_recipe_patch
       follow_redirect!
-      expect(response.body).to match("href=\"#{edit_recipe_path(@recipe)}\">Edit</a>")
+      expect(response.body).to match("href=\"#{edit_recipe_path(recipe)}\">Edit</a>")
     end
   end
 end

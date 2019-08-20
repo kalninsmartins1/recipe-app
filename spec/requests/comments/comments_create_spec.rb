@@ -2,13 +2,11 @@ require 'rails_helper'
 require 'support/login_helper'
 
 RSpec.describe 'CommentsControllerCreate', type: :request do
-  before(:each) do
-    @chef = Chef.create(name: 'Peter', email: 'peter12@test.com', password: 'password')
-    @recipe = Recipe.create(name: 'Coconut', description: 'Use hammer to open.', chef_id: @chef.id)
-  end
+  let!(:chef) { Chef.create!(name: 'Peter', email: 'peter12@test.com', password: 'password') }
+  let!(:recipe) { chef.recipes.create!(name: 'Coconut', description: 'Use hammer to open.') }
 
   def post_comment(description)
-    post recipe_comments_path(@recipe), params: {comment: {description: description}}
+    post recipe_comments_path(recipe), params: {comment: {description: description}}
   end
 
   context 'without login' do
@@ -19,7 +17,7 @@ RSpec.describe 'CommentsControllerCreate', type: :request do
 
   context 'with login' do
     before(:each) do
-      login(@chef.email, @chef.password)
+      login(chef.email, chef.password)
     end
 
     it 'cant create empty comment' do

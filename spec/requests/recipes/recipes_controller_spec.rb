@@ -2,16 +2,14 @@ require 'rails_helper'
 require 'support/login_helper'
 
 RSpec.describe 'RecipesController', type: :request do
-  before(:each) do
-    @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-    @recipe1 = @chef.recipes.create(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
-    @recipe2 = @chef.recipes.create(name: 'Variti burkani', description: 'Varam 15 minutes katla kopa ar kiploku...')
-  end
+  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
+  let!(:recipe_a) { chef.recipes.create!(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao') }
+  let!(:recipe_b) { chef.recipes.create!(name: 'Variti burkani', description: 'Varam 15 minutes katla kopa ar kiploku...') }
 
   context 'GET /recipes' do
     before(:each) do
-      Comment.create(description: 'Hey !', recipe_id: @recipe1.id, chef_id: @chef.id)
-      Comment.create(description: 'Jeees !', recipe_id: @recipe1.id, chef_id: @chef.id)
+      Comment.create!(description: 'Hey !', recipe_id: recipe_a.id, chef_id: chef.id)
+      Comment.create!(description: 'Jeees !', recipe_id: recipe_a.id, chef_id: chef.id)
       get recipes_path
     end
 
@@ -28,56 +26,55 @@ RSpec.describe 'RecipesController', type: :request do
     end
 
     it 'should display recipe1 name as hyperlink' do
-      assert_select('a[href=?]', recipe_path(@recipe1), text: @recipe1.name)
+      assert_select('a[href=?]', recipe_path(recipe_a), text: recipe_a.name)
     end
 
     it 'should display recipe2 name as hyperlink' do
-      assert_select('a[href=?]', recipe_path(@recipe2), text: @recipe2.name)
+      assert_select('a[href=?]', recipe_path(recipe_b), text: recipe_b.name)
     end
   end
 
   context 'GET /recipes/:id' do
     it 'show recipe route should exist' do
-      get recipe_path(@recipe1)
+      get recipe_path(recipe_a)
       expect(response).to have_http_status(200)
     end
 
     it 'should render show template' do
-      get recipe_path(@recipe1)
+      get recipe_path(recipe_a)
       expect(response).to render_template(:show)
     end
 
     it 'should display recipe name' do
-      get recipe_path(@recipe1)
-      expect(response.body).to match(@recipe1.name)
+      get recipe_path(recipe_a)
+      expect(response.body).to match(recipe_a.name)
     end
 
     it 'should display recipe description' do
-      get recipe_path(@recipe2)
-      expect(response.body).to match(@recipe2.description)
+      get recipe_path(recipe_b)
+      expect(response.body).to match(recipe_b.description)
     end
 
     it 'shoul display chef name' do
-      get recipe_path(@recipe1)
-      expect(response.body).to match(@chef.name)
+      get recipe_path(recipe_a)
+      expect(response.body).to match(chef.name)
     end
 
     it 'should have a link to recipe index' do
-      get recipe_path(@recipe1)
+      get recipe_path(recipe_a)
       expect(response.body).to match("href=\"#{recipes_path}\">Show all recipes</a>")
     end
 
     it 'should display comments' do
-      comment = Comment.new(description: 'this is spectacularly awesome test', chef_id: @chef.id, recipe_id: @recipe1.id)
-      comment.save!
-      get recipe_path(@recipe1)
+      comment = Comment.create!(description: 'this is spectacularly awesome test', chef_id: chef.id, recipe_id: recipe_a.id)
+      get recipe_path(recipe_a)
       expect(response.body).to match(comment.description)
     end
   end
 
   context 'GET /recipes/new' do
     before(:each) do
-      login(@chef.email, @chef.password)
+      login(chef.email, chef.password)
       get new_recipe_path
     end
 
@@ -93,7 +90,7 @@ RSpec.describe 'RecipesController', type: :request do
   context 'POST /recipes' do
     context 'invalid submission' do
       before(:each) do
-        login(@chef.email, @chef.password)
+        login(chef.email, chef.password)
         # Before each example post an invalid recipe
         post recipes_path, params: {recipe: {name: '', description: ''}}
       end
@@ -117,7 +114,7 @@ RSpec.describe 'RecipesController', type: :request do
 
       before(:each) do
         # Before each example perform a login
-        login(@chef.email, @chef.password)
+        login(chef.email, chef.password)
       end
 
       def post_valid_recipe(ingredient_ids = [])
@@ -139,8 +136,7 @@ RSpec.describe 'RecipesController', type: :request do
       end
 
       it 'should have ingredients' do
-        ingredient = Ingredient.new(name: 'Coconut')
-        ingredient.save!
+        ingredient = Ingredient.create!(name: 'Coconut')
         post_valid_recipe([ingredient.id])
         expect(Recipe.find_by(name: RECIPE_NAME).ingredients.count).to_not eq(0)
       end

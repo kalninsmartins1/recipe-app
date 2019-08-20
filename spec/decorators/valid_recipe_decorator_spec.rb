@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'ValidRecipeDecorator' do
-  before(:each) do
-    chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-    @recipe = Recipe.new(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min', chef_id: chef.id)
-    @recipe.save!
+  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
+  let(:recipe) do
+    Recipe.create!(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min',
+                   chef_id: chef.id)
   end
 
   context 'find method' do
@@ -13,7 +13,7 @@ RSpec.describe 'ValidRecipeDecorator' do
     end
 
     it 'return correct record when valid id provided' do
-      expect(ValidRecipeDecorator.find(@recipe.id).name).to eq(@recipe.name)
+      expect(ValidRecipeDecorator.find(recipe.id).name).to eq(recipe.name)
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe 'ValidRecipeDecorator' do
     end
 
     it 'return correct record when valid attribute provided' do
-      expect(ValidRecipeDecorator.find_by(name: @recipe.name).id).to eq(@recipe.id)
+      expect(ValidRecipeDecorator.find_by(name: recipe.name).id).to eq(recipe.id)
     end
   end
 end

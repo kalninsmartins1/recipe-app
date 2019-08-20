@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'ValidChefDecorator' do
-  before(:each) do
-    @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-  end
+  let(:chef) { Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
 
   context 'find method' do
     it 'should return NullChefRecord when no Chef has been found' do
@@ -11,7 +9,7 @@ RSpec.describe 'ValidChefDecorator' do
     end
 
     it 'shuld return valid chef when existing id provided' do
-      expect(ValidChefDecorator.find(@chef.id).name).to eq(@chef.name)
+      expect(ValidChefDecorator.find(chef.id).name).to eq(chef.name)
     end
   end
 
@@ -21,7 +19,7 @@ RSpec.describe 'ValidChefDecorator' do
     end
 
     it 'should return valid chef when existing attribute is searched for' do
-      expect(ValidChefDecorator.find_by(email: @chef.email).name).to eq(@chef.name)
+      expect(ValidChefDecorator.find_by(email: chef.email).name).to eq(chef.name)
     end
   end
 end

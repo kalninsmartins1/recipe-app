@@ -1,33 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe 'ChefsEdit', type: :request do
+  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
+  let(:recipe_a) { chef.recipes.create!(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao') }
+  let(:recipe_b) do
+    chef.recipes.create!(name: 'Variti burkani',
+                         description: 'Varam 15 minutes katla kopa ar kiploku, tad pievienojam merci pec izveles')
+  end
   before(:each) do
-    @chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-    @recipe1 = @chef.recipes.new(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
-    @recipe2 = @chef.recipes.new(name: 'Variti burkani',
-                                 description: 'Varam 15 minutes katla kopa ar kiploku, tad pievienojam merci pec izveles')
-
-    @recipe1.save!
-    @recipe2.save!
-
-    login(@chef.email, @chef.password)
+    login(chef.email, chef.password)
   end
 
   NEW_CHEF_NAME = 'Karlis'.freeze
   NEW_CHEF_EMAIL = 'karlisliepa@veiksme.com'.freeze
 
   def valid_chef_patch
-    patch chef_path(@chef), params: {chef: {name: NEW_CHEF_NAME, email: NEW_CHEF_EMAIL}}
+    patch chef_path(chef), params: {chef: {name: NEW_CHEF_NAME, email: NEW_CHEF_EMAIL}}
   end
 
   it 'has edit route' do
-    get edit_chef_path(@chef)
+    get edit_chef_path(chef)
     expect(response).to have_http_status(200)
   end
 
   context 'reject invalid update' do
     def invalid_chef_patch
-      patch chef_path(@chef), params: {chef: {name: '', email: 'test@test.com'}}
+      patch chef_path(chef), params: {chef: {name: '', email: 'test@test.com'}}
     end
 
     it 'is not redirected away from edit template' do
@@ -70,13 +68,13 @@ RSpec.describe 'ChefsEdit', type: :request do
 
   context 'admin user updating other users' do
     it 'valid update' do
-      admin_chef = Chef.create(name: 'Karlis', email: 'karlis12@varaviksne.com', password: 'parole', admin: true)
+      admin_chef = Chef.create!(name: 'Karlis', email: 'karlis12@varaviksne.com', password: 'parole', admin: true)
       login(admin_chef.email, admin_chef.password)
       valid_chef_patch
     end
 
     it 'invalid update' do
-      other_chef = Chef.create(name: 'Valdis', email: 'valdis21@zakusala.com', password: 'parole')
+      other_chef = Chef.create!(name: 'Valdis', email: 'valdis21@zakusala.com', password: 'parole')
       login(other_chef.email, other_chef.password)
       valid_chef_patch
     end

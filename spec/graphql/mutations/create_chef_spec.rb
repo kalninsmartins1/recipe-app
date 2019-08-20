@@ -25,21 +25,18 @@ RSpec.describe 'CreateChef' do
   context 'valid chef mutation' do
     NAME = 'John'.freeze
     EMAIL = 'johntreec@test.com'.freeze
-
-    before(:each) do
-      @chef = perform(name: NAME, email: EMAIL, password: 'password')
-    end
+    let(:chef) { perform(name: NAME, email: EMAIL, password: 'password') }
 
     it 'created chef is persisted' do
-      expect(@chef.persisted?).to eq(true)
+      expect(chef.persisted?).to eq(true)
     end
 
     it 'created chef has correct name' do
-      expect(@chef.name).to eq(NAME)
+      expect(chef.name).to eq(NAME)
     end
 
     it 'created chef has correct email' do
-      expect(@chef.email).to eq(EMAIL)
+      expect(chef.email).to eq(EMAIL)
     end
   end
 end

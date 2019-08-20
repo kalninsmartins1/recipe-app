@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe RecipeIngredient, type: :model do
-  before(:each) do
-    chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole', password_confirmation: 'parole')
-    recipe1 = chef.recipes.create(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min')
-    recipe2 = chef.recipes.create(name: 'Bake pumpkin', description: 'Bake it !')
+  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
+  let(:recipe_a) { chef.recipes.create!(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min') }
+  let(:recipe_b) { chef.recipes.create!(name: 'Bake pumpkin', description: 'Bake it !') }
 
-    recipe1.ingredients.create(name: 'Sweet potatoe')
-    recipe1.ingredients.create(name: 'Coconut oil')
-    recipe2.ingredients.create(name: 'Pumpkin')
+  before(:each) do
+    recipe_a.ingredients.create!(name: 'Sweet potatoe')
+    recipe_a.ingredients.create!(name: 'Coconut oil')
+    recipe_b.ingredients.create!(name: 'Pumpkin')
   end
 
   it 'has many recipes' do

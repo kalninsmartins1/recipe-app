@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe RecentMessagesQuery do
-  before(:each) do
-    @chef = Chef.create(name: 'Peter', email: 'peter12@test.com', password: 'password')
-  end
+  let(:chef) { Chef.create(name: 'Peter', email: 'peter12@test.com', password: 'password') }
 
   it 'class method most_recent returns last 20 messages' do
-    excluded_message = @chef.messages.create(content: 'Excluded !', created_at: 1.day.ago)
+    excluded_message = chef.messages.create(content: 'Excluded !', created_at: 1.day.ago)
     20.times do |i|
-      @chef.messages.create(content: "This is a message #{i}")
+      chef.messages.create(content: "This is a message #{i}")
     end
 
     most_recent_messages = RecentMessagesQuery.messages

@@ -30,7 +30,7 @@ RSpec.describe 'IngredientsControllerCreateNewActions', type: :request do
 
   context 'admin actions' do
     before(:each) do
-      chef = Chef.create(name: 'Peter', email: 'peter321@test.com', password: 'password', admin: true)
+      chef = Chef.create!(name: 'Peter', email: 'peter321@test.com', password: 'password', admin: true)
       login(chef.email, chef.password)
     end
 

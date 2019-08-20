@@ -8,7 +8,7 @@ RSpec.describe 'MessagesCreate', type: :request do
 
   context 'with login' do
     before(:each) do
-      chef = Chef.create(name: 'Peter', email: 'peter12@test.com', password: 'password')
+      chef = Chef.create!(name: 'Peter', email: 'peter12@test.com', password: 'password')
       login(chef.email, chef.password)
     end
 
