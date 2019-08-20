@@ -5,5 +5,4 @@ class Comment < ApplicationRecord
 
   validates :description, presence: true
   validates :description, length: {within: 4..140}
-  validates :chef_id, presence: true
 end

@@ -4,7 +4,7 @@ class Chef < ApplicationRecord
   has_many :messages, dependent: :destroy
 
   has_secure_password
-  before_save { self.email = email.downcase }
+  before_save { self.email = email.downcase if email }
 
   validates :name, presence: true
   validates :name, length: {within: 3..20}

@@ -3,59 +3,25 @@ require 'rails_helper'
 RSpec.describe Chef, type: :model do
   let(:chef) { create(:chef) }
 
+  it { should have_secure_password }
+
   context 'validation tests' do
     context 'name' do
-      it 'should be present' do
-        chef.name = ' '
-        expect(chef.valid?).to eq(false)
-      end
-
-      it 'should not be shorter than 3 characters' do
-        chef.name = 'aa'
-        expect(chef.valid?).to eq(false)
-      end
-
-      it 'should not be longer than 20 characters' do
-        chef.name = 'a' * 21
-        expect(chef.valid?).to eq(false)
-      end
+      it { should validate_presence_of(:name) }
+      it { should validate_length_of(:name).is_at_least(3).is_at_most(20) }
     end
 
     context 'email' do
-      it 'should be present' do
-        chef.email = ' '
-        expect(chef.valid?).to eq(false)
-      end
-
-      it 'shoud not be shorter than 3 characters' do
-        chef.email = 'a'
-        expect(chef.valid?).to eq(false)
-      end
-
-      it 'should not be longer than 320 characters' do
-        chef.email = 'a' * 321
-        expect(chef.valid?).to eq(false)
-      end
+      it { should validate_presence_of(:email) }
+      it { should validate_length_of(:email).is_at_least(3).is_at_most(320) }
+      it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
 
       it 'should have correct format' do
         chef.email = 'aaaa'
         expect(chef.valid?).to eq(false)
       end
 
-      it 'should be unique' do
-        chef_dupe = chef.dup
-        chef.save
-        expect(chef_dupe.valid?).to eq(false)
-      end
-
-      it 'should be case insensitive' do
-        chef_dupe = chef.dup
-        chef_dupe.email = chef.email.upcase
-        chef.save
-        expect(chef_dupe.valid?).to eq(false)
-      end
-
-      it 'should be lower case before hitting the database' do
+      it 'should be lower case after saving' do
         mixed_case_email = 'PeterisTestetajs@peteris.co.uk'
         chef.email = mixed_case_email
         chef.save
@@ -64,39 +30,14 @@ RSpec.describe Chef, type: :model do
     end
 
     context 'password' do
-      it 'should be present' do
-        chef.password = ' '
-        expect(chef.valid?).to eq(false)
-      end
-
-      it 'should be atleast 5 characters' do
-        chef.password = 'w' * 4
-        expect(chef.valid?).to eq(false)
-      end
+      it { should validate_presence_of(:password) }
+      it { should validate_length_of(:password).is_at_least(5) }
     end
   end
 
   context 'association tests' do
-    it 'recipes are deleted when chef is deleted' do
-      chef.recipes.create!(attributes_for(:recipe))
-      expect { chef.destroy }.to change { Recipe.count }.by(-1)
-    end
-
-    it 'comments are deleted when chef is deleted' do
-      recipe = chef.recipes.create!(attributes_for(:recipe))
-      create(:comment, chef_id: chef.id, recipe_id: recipe.id)
-      chef.save!
-
-      expect { chef.destroy }.to change { Comment.count }.by(-1)
-    end
-
-    it 'messages are deleted when chef is deleted' do
-      chef.messages.create!(attributes_for(:message))
-      expect { chef.destroy }.to change { Message.count }.by(-1)
-    end
-
-    it 'has many comments' do
-      expect(chef).to respond_to(:comments)
-    end
+    it { should have_many(:comments).dependent(:destroy) }
+    it { should have_many(:recipes).dependent(:destroy) }
+    it { should have_many(:messages).dependent(:destroy) }
   end
 end
