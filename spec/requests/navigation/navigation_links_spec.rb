@@ -6,7 +6,7 @@ RSpec.describe 'NavigationLinks', type: :request do
 
   context 'with login' do
     before(:each) do
-      chef = Chef.create(name: 'Peter', email: 'peter12@test.com', password: 'password')
+      chef = create(:chef)
       login(chef.email, chef.password)
     end
 

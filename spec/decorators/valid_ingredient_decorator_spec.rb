@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'ValidIngredientDecorator' do
   let(:ingredient) do
-    chef = Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole')
-    recipe = chef.recipes.create(name: 'Baked sweet patatoe', description: 'Put sweet potatoes in oven')
-    recipe.ingredients.create(name: 'Sweet patatoe')
+    chef = create(:chef)
+    recipe = chef.recipes.create!(attributes_for(:recipe))
+    recipe.ingredients.create!(attributes_for(:ingredient))
   end
 
   context 'find method' do

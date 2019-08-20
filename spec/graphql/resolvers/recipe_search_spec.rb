@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'RecipesSearch' do
-  let(:chef) { Chef.create!(name: 'Josh', email: 'joshwader@test.com', password: 'password') }
-  let(:recipe_a) { chef.recipes.create!(name: 'Coconut', description: 'Use hammer to open.') }
-  let(:recipe_b) { chef.recipes.create!(name: 'Carrot', description: 'Wash it, cut it.') }
+  let(:chef) { create(:chef) }
+  let(:recipe_a) { chef.recipes.create!(attributes_for(:recipe_a)) }
+  let(:recipe_b) { chef.recipes.create!(attributes_for(:recipe_b)) }
 
   def find(args)
     Resolvers::RecipesSearch.call(nil, args, nil)

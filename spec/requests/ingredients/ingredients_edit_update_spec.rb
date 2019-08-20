@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'IngredientsControllerEditUpdateActions', type: :request do
-  let(:ingredient) { Ingredient.create!(name: 'Turkey') }
+  let(:ingredient) { create(:ingredient) }
+  let(:new_ingredient) { build(:ingredient_a) }
 
   def patch_valid_ingredient_update
-    patch ingredient_path(ingredient, params: {ingredient: {name: 'Cheese'}})
+    patch ingredient_path(ingredient, params: {ingredient: {name: new_ingredient.name}})
   end
 
   def patch_invalid_ingredient_update
@@ -30,8 +31,8 @@ RSpec.describe 'IngredientsControllerEditUpdateActions', type: :request do
 
   context 'admin actions' do
     before(:each) do
-      chef = Chef.create!(name: 'Peter', email: 'peter321@test.com', password: 'password', admin: true)
-      login(chef.email, chef.password)
+      admin_chef = create(:admin_chef)
+      login(admin_chef.email, admin_chef.password)
     end
 
     it 'accepts valid ingredient update' do

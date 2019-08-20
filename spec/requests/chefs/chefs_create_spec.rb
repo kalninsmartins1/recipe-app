@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'ChefsCreate', type: :request do
+  let(:chef) { build(:chef) }
+
   context 'signup' do
     it 'route exists' do
       get signup_path
@@ -9,7 +11,7 @@ RSpec.describe 'ChefsCreate', type: :request do
 
     context 'invalid submission' do
       def post_invalid_chef
-        post chefs_path, params: {chef: {name: '', email: '', password: 'pass', password_confirmation: 'pass'}}
+        post chefs_path, params: {chef: {name: '', email: '', password: chef.password}}
       end
 
       it 'no difference in database chef count' do
@@ -29,10 +31,9 @@ RSpec.describe 'ChefsCreate', type: :request do
     end
 
     context 'valid submission' do
-      CHEF_JOHN_EMAIL = 'john123@test.com'.freeze
       def post_valid_chef
-        post chefs_path, params: {chef: {name: 'John', email: CHEF_JOHN_EMAIL,
-                                         password: 'password'}}
+        post chefs_path, params: {chef: {name: chef.name, email: chef.email,
+                                         password: chef.password}}
       end
 
       it 'count in database has increased' do
@@ -52,8 +53,8 @@ RSpec.describe 'ChefsCreate', type: :request do
 
       it 'created chef is logged in' do
         post_valid_chef
-        chef = Chef.find_by(email: CHEF_JOHN_EMAIL)
-        expect(session[:chef_id]).to eq(chef.id)
+        found_chef = ValidChefDecorator.find_by(email: chef.email)
+        expect(session[:chef_id]).to eq(found_chef.id)
       end
     end
   end

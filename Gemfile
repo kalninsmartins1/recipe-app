@@ -40,6 +40,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rails-controller-testing'
   gem 'action-cable-testing'
+
+  # For creating test data
+  gem 'factory_bot_rails'
 end
 
 group :development do

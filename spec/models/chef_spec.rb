@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Chef, type: :model do
-  let(:chef) { Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
+  let(:chef) { create(:chef) }
 
   context 'validation tests' do
     context 'name' do
@@ -78,21 +78,20 @@ RSpec.describe Chef, type: :model do
 
   context 'association tests' do
     it 'recipes are deleted when chef is deleted' do
-      chef.recipes.create(name: 'test', description: 'testing123')
-      chef.save!
+      chef.recipes.create!(attributes_for(:recipe))
       expect { chef.destroy }.to change { Recipe.count }.by(-1)
     end
 
     it 'comments are deleted when chef is deleted' do
-      recipe = chef.recipes.create(name: 'test', description: 'testing123')
-      chef.comments.create(description: 'ulaa', recipe_id: recipe.id, chef_id: chef.id)
+      recipe = chef.recipes.create!(attributes_for(:recipe))
+      create(:comment, chef_id: chef.id, recipe_id: recipe.id)
       chef.save!
+
       expect { chef.destroy }.to change { Comment.count }.by(-1)
     end
 
     it 'messages are deleted when chef is deleted' do
-      chef.messages.create(content: 'This is a message')
-      chef.save!
+      chef.messages.create!(attributes_for(:message))
       expect { chef.destroy }.to change { Message.count }.by(-1)
     end
 

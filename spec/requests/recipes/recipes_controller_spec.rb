@@ -2,14 +2,14 @@ require 'rails_helper'
 require 'support/login_helper'
 
 RSpec.describe 'RecipesController', type: :request do
-  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
-  let!(:recipe_a) { chef.recipes.create!(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao') }
-  let!(:recipe_b) { chef.recipes.create!(name: 'Variti burkani', description: 'Varam 15 minutes katla kopa ar kiploku...') }
+  let(:chef) { create(:chef) }
+  let!(:recipe_a) { chef.recipes.create!(attributes_for(:recipe_a)) }
+  let!(:recipe_b) { chef.recipes.create!(attributes_for(:recipe_b)) }
 
   context 'GET /recipes' do
     before(:each) do
-      Comment.create!(description: 'Hey !', recipe_id: recipe_a.id, chef_id: chef.id)
-      Comment.create!(description: 'Jeees !', recipe_id: recipe_a.id, chef_id: chef.id)
+      create(:comment_a, recipe_id: recipe_a.id, chef_id: chef.id)
+      create(:comment_b, recipe_id: recipe_a.id, chef_id: chef.id)
       get recipes_path
     end
 
@@ -66,7 +66,7 @@ RSpec.describe 'RecipesController', type: :request do
     end
 
     it 'should display comments' do
-      comment = Comment.create!(description: 'this is spectacularly awesome test', chef_id: chef.id, recipe_id: recipe_a.id)
+      comment = create(:comment, chef_id: chef.id, recipe_id: recipe_a.id)
       get recipe_path(recipe_a)
       expect(response.body).to match(comment.description)
     end
@@ -109,8 +109,7 @@ RSpec.describe 'RecipesController', type: :request do
     end
 
     context 'valid submission' do
-      RECIPE_NAME = 'saldie kartupeli'.freeze
-      RECIPE_DESCRIPTION = 'jum jum... Tik japieliek klat kakao :P'.freeze
+      let(:new_recipe) { build(:recipe) }
 
       before(:each) do
         # Before each example perform a login
@@ -118,27 +117,27 @@ RSpec.describe 'RecipesController', type: :request do
       end
 
       def post_valid_recipe(ingredient_ids = [])
-        post recipes_path, params: {recipe: {name: RECIPE_NAME,
-                                             description: RECIPE_DESCRIPTION,
+        post recipes_path, params: {recipe: {name: new_recipe.name,
+                                             description: new_recipe.description,
                                              ingredient_ids: ingredient_ids}}
       end
 
       it 'should display recipe name' do
         post_valid_recipe
         follow_redirect!
-        expect(response.body).to match(RECIPE_NAME.capitalize)
+        expect(response.body).to match(new_recipe.name.capitalize)
       end
 
       it 'should display recipe description' do
         post_valid_recipe
         follow_redirect!
-        expect(response.body).to match(RECIPE_DESCRIPTION)
+        expect(response.body).to match(new_recipe.description)
       end
 
       it 'should have ingredients' do
-        ingredient = Ingredient.create!(name: 'Coconut')
+        ingredient = create(:ingredient)
         post_valid_recipe([ingredient.id])
-        expect(Recipe.find_by(name: RECIPE_NAME).ingredients.count).to_not eq(0)
+        expect(ValidRecipeDecorator.find_by(name: new_recipe.name).ingredients.count).to_not eq(0)
       end
     end
   end

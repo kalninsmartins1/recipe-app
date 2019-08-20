@@ -1,14 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'ChefsListing', type: :request do
-  let(:chef_a) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'passwords') }
-  let(:chef_b) { Chef.create!(name: 'Jānis', email: 'janis12@awesome.com', password: 'parole2') }
+  let(:chef_a) { create(:chef_a) }
+  let(:chef_b) { create(:chef_b) }
 
   before(:each) do
-    chef_a.recipes.create!(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao')
-    chef_a.recipes.create!(name: 'Variti burkani',
-                           description: 'Varam 15 minutes katla kopa ar kiploku, tad pievienojam merci pec izveles')
-    chef_b.recipes.create!(name: 'Zirnu savtejus', description: 'Savte zirnus ar nedaudz elas, pec tam ed ar krejumu.')
+    chef_a.recipes.create!(attributes_for(:recipe))
+    chef_a.recipes.create!(attributes_for(:recipe_a))
+    chef_b.recipes.create!(attributes_for(:recipe_b))
   end
 
   context 'has index route' do

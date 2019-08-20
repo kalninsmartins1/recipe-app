@@ -1,11 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'ValidRecipeDecorator' do
-  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
-  let(:recipe) do
-    Recipe.create!(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min',
-                   chef_id: chef.id)
-  end
+  let(:chef) { create(:chef) }
+  let(:recipe) { chef.recipes.create(attributes_for(:recipe)) }
 
   context 'find method' do
     it 'return NullRecipeRecord when record not found' do

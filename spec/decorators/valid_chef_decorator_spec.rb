@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'ValidChefDecorator' do
-  let(:chef) { Chef.create(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
+  let(:chef) { create(:chef) }
 
   context 'find method' do
     it 'should return NullChefRecord when no Chef has been found' do

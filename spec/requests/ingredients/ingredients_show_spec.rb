@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'IngredientsControllerShowAction', type: :request do
-  let(:chef) { Chef.create!(name: 'John', email: 'john123@test.com', password: 'password') }
-  let(:first_recipe) { chef.recipes.create(name: 'Coconut wonder', description: 'Tasty, tasty...') }
-  let(:second_recipe) { chef.recipes.create(name: 'Coconut milk', description: 'Blend coconut with water.') }
-  let(:ingredient) { Ingredient.create!(name: 'Coconut') }
+  let(:chef) { create(:chef) }
+  let(:first_recipe) { chef.recipes.create!(attributes_for(:recipe_a)) }
+  let(:second_recipe) { chef.recipes.create!(attributes_for(:recipe_b)) }
+  let(:ingredient) { create(:ingredient) }
 
   before(:each) do
     [first_recipe, second_recipe].each do |recipe|

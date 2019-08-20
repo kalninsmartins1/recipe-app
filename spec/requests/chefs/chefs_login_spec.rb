@@ -7,7 +7,8 @@ RSpec.describe 'ChefsLogin', type: :request do
 
   context 'invalid login' do
     before(:each) do
-      post login_path, params: {session: {email: ' ', password: 'do'}}
+      chef = build(:chef)
+      post login_path, params: {session: {email: ' ', password: chef.password}}
     end
 
     it 'stays on new template' do
@@ -30,7 +31,7 @@ RSpec.describe 'ChefsLogin', type: :request do
 
   context 'valid login' do
     before(:each) do
-      chef = Chef.create!(name: 'Alberts', email: 'korektsepasts@korekts.com', password: 'parole')
+      chef = create(:chef)
       login(chef.email, chef.password)
     end
 

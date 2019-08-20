@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'RecipesDeleteController', type: :request do
-  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
-  let!(:recipe) { chef.recipes.create!(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao') }
+  let(:chef) { create(:chef) }
+  let!(:recipe) { chef.recipes.create!(attributes_for(:recipe)) }
 
   before(:each) do
     login(chef.email, chef.password)

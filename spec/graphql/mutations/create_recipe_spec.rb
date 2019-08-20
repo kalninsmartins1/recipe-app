@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'CreateRecipe' do
-  let(:chef) { Chef.create(name: 'Josh', email: 'joshwelch@test.com', password: 'password') }
+  let(:chef) { create(:chef) }
   let(:test_name) { 'Coconut' }
   let(:test_description) { 'Break the shell.' }
 

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'IngredientsControllerIndexAction', type: :request do
-  let!(:first_ingredient) { Ingredient.create!(name: 'Coconut') }
-  let!(:second_ingredient) { Ingredient.create!(name: 'Pumpkin') }
+  let!(:first_ingredient) { create(:ingredient_a) }
+  let!(:second_ingredient) { create(:ingredient_b) }
 
   it 'displays a list of ingredients' do
     get ingredients_path
@@ -11,8 +11,9 @@ RSpec.describe 'IngredientsControllerIndexAction', type: :request do
   end
 
   it 'admin has a link to edit ingredient' do
-    chef = Chef.create!(name: 'Admin', email: 'admin@test.com', password: 'password', admin: true)
-    login(chef.email, chef.password)
+    admin_chef = create(:admin_chef)
+    login(admin_chef.email, admin_chef.password)
+
     get ingredients_path
     expect(response.body).to match(edit_ingredient_path(first_ingredient))
     expect(response.body).to match(edit_ingredient_path(second_ingredient))

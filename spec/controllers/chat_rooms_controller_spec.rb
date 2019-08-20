@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe ChatRoomsController, type: :controller do
   context 'show method' do
-    let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@test.com', password: 'password') }
+    let(:chef) { create(:chef) }
     before(:each) do
       silent_login(chef.id)
-      message = chef.messages.create!(content: 'Nice content !')
+      message = chef.messages.create!(attributes_for(:message))
       get :show, params: {id: message.id}
     end
 

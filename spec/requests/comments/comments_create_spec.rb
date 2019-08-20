@@ -2,8 +2,9 @@ require 'rails_helper'
 require 'support/login_helper'
 
 RSpec.describe 'CommentsControllerCreate', type: :request do
-  let!(:chef) { Chef.create!(name: 'Peter', email: 'peter12@test.com', password: 'password') }
-  let!(:recipe) { chef.recipes.create!(name: 'Coconut', description: 'Use hammer to open.') }
+  let!(:chef) { create(:chef) }
+  let!(:recipe) { chef.recipes.create!(attributes_for(:recipe)) }
+  let(:new_comment) { build(:comment) }
 
   def post_comment(description)
     post recipe_comments_path(recipe), params: {comment: {description: description}}
@@ -11,7 +12,7 @@ RSpec.describe 'CommentsControllerCreate', type: :request do
 
   context 'without login' do
     it 'creating comment requires login' do
-      expect { post_comment('Hello World !') }.to change { Comment.count }.by(0)
+      expect { post_comment(new_comment.description) }.to change { Comment.count }.by(0)
     end
   end
 
@@ -25,12 +26,11 @@ RSpec.describe 'CommentsControllerCreate', type: :request do
     end
 
     it 'valid comment is accepted' do
-      expect { post_comment('Hello World !') }.to change { Comment.count }.by(1)
+      expect { post_comment(new_comment.description) }.to change { Comment.count }.by(1)
     end
 
     it 'should broadcast to comments channel' do
-      comment = 'Comment to broadcast :P'
-      expect { post_comment(comment).to have_broadcasted_to('comments').with(text: comment) }
+      expect { post_comment(new_comment.description).to have_broadcasted_to('comments').with(text: new_comment.description) }
     end
   end
 end

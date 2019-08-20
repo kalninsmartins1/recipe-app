@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
-  let(:chef) { Chef.create!(name: 'John', email: 'john@test.com', password: 'password') }
-  let(:recipe) { chef.recipes.create!(name: 'Boiled buckwheat', description: '20 minutes boil in water') }
-  let(:comment) { Comment.create!(description: 'This is a great recipe !', chef_id: chef.id, recipe_id: recipe.id) }
+  let(:chef) { create(:chef) }
+  let(:recipe) { chef.recipes.create!(attributes_for(:recipe)) }
+  let(:comment) { create(:comment, chef_id: chef.id, recipe_id: recipe.id) }
 
   it 'latest comments are at the top' do
-    other_comment = Comment.create(description: 'I still like it !', chef_id: chef.id, recipe_id: recipe.id)
+    other_comment = create(:comment_a, chef_id: chef.id, recipe_id: recipe.id)
     expect(Comment.first.id).to eq(other_comment.id)
   end
 

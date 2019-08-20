@@ -1,11 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
-  let!(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'password') }
-  let!(:recipe) do
-    Recipe.new(name: 'Baked sweet patatoes', description: '1. Cut in slices;2.Bake in oven for 20 min',
-               chef_id: chef.id)
-  end
+  let!(:chef) { create(:chef) }
+  let!(:recipe) { build(:recipe, chef_id: chef.id) }
 
   context 'validation tests' do
     it 'chef id should not be nil' do

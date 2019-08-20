@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Message, type: :model do
-  let!(:chef) { Chef.create!(name: 'Peter', email: 'peter12@test.com', password: 'password') }
-  let(:message) { Message.new(content: 'This is a nice content !', chef_id: chef.id) }
+  let!(:chef) { create(:chef) }
+  let(:message) { build(:message, chef_id: chef.id) }
 
   it 'chef_id cant be blank' do
     message.chef_id = ''

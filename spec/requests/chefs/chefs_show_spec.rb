@@ -1,12 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'ChefsShow', type: :request do
-  let(:chef) { Chef.create!(name: 'Peter', email: 'peter12@awesome.com', password: 'parole') }
-  let!(:recipe_a) { chef.recipes.create!(name: 'Saldie kartupeli', description: 'Loti garsigi, ipasi ar cacao') }
-  let!(:recipe_b) do
-    chef.recipes.create!(name: 'Variti burkani',
-                         description: 'Varam 15 minutes katla kopa ar kiploku, tad pievienojam merci pec izveles')
-  end
+  let(:chef) { create(:chef) }
+  let!(:recipe_a) { chef.recipes.create!(attributes_for(:recipe_a)) }
+  let!(:recipe_b) { chef.recipes.create!(attributes_for(:recipe_b)) }
 
   it 'all the links to recipes are present' do
     get chef_path(chef)

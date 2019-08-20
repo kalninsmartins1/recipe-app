@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'IngredientsControllerCreateNewActions', type: :request do
+  let(:new_ingredient) { build(:ingredient) }
+
   def post_valid_ingrdient_creation
-    post ingredients_path(params: {ingredient: {name: 'Cheese'}})
+    post ingredients_path(params: {ingredient: {name: new_ingredient.name}})
   end
 
   def post_invalid_ingredient_creation
@@ -30,8 +32,8 @@ RSpec.describe 'IngredientsControllerCreateNewActions', type: :request do
 
   context 'admin actions' do
     before(:each) do
-      chef = Chef.create!(name: 'Peter', email: 'peter321@test.com', password: 'password', admin: true)
-      login(chef.email, chef.password)
+      admin_chef = create(:admin_chef)
+      login(admin_chef.email, admin_chef.password)
     end
 
     it 'sites header has new ingredient path' do
