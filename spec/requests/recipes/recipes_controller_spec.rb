@@ -3,13 +3,13 @@ require 'support/login_helper'
 
 RSpec.describe 'RecipesController', type: :request do
   let(:chef) { create(:chef) }
-  let!(:recipe_a) { chef.recipes.create!(attributes_for(:recipe_a)) }
-  let!(:recipe_b) { chef.recipes.create!(attributes_for(:recipe_b)) }
+  let!(:recipe_a) { chef.recipes.create!(attributes_for(:recipe)) }
+  let!(:recipe_b) { chef.recipes.create!(attributes_for(:recipe)) }
 
   context 'GET /recipes' do
     before(:each) do
-      create(:comment_a, recipe_id: recipe_a.id, chef_id: chef.id)
-      create(:comment_b, recipe_id: recipe_a.id, chef_id: chef.id)
+      create(:comment, recipe_id: recipe_a.id, chef_id: chef.id)
+      create(:comment, recipe_id: recipe_a.id, chef_id: chef.id)
       get recipes_path
     end
 

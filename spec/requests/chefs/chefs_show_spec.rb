@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'ChefsShow', type: :request do
   let(:chef) { create(:chef) }
-  let!(:recipe_a) { chef.recipes.create!(attributes_for(:recipe_a)) }
-  let!(:recipe_b) { chef.recipes.create!(attributes_for(:recipe_b)) }
+  let!(:recipe_a) { chef.recipes.create!(attributes_for(:recipe)) }
+  let!(:recipe_b) { chef.recipes.create!(attributes_for(:recipe)) }
 
   it 'all the links to recipes are present' do
     get chef_path(chef)

@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'ChefsListing', type: :request do
-  let(:chef_a) { create(:chef_a) }
-  let(:chef_b) { create(:chef_b) }
+  let(:chef_a) { create(:chef) }
+  let(:chef_b) { create(:chef) }
 
   before(:each) do
     chef_a.recipes.create!(attributes_for(:recipe))
-    chef_a.recipes.create!(attributes_for(:recipe_a))
-    chef_b.recipes.create!(attributes_for(:recipe_b))
+    chef_a.recipes.create!(attributes_for(:recipe))
+    chef_b.recipes.create!(attributes_for(:recipe))
   end
 
   context 'has index route' do

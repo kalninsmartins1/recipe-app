@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'ChefsEdit', type: :request do
   let(:chef) { create(:chef) }
-  let(:recipe_a) { chef.recipes.create!(attributes_for(:recipe_a)) }
-  let(:recipe_b) { chef.recipes.create!(attributes_for(:recipe_b)) }
-  let(:new_chef) { build(:chef_a) }
+  let(:recipe) { chef.recipes.create!(attributes_for(:recipe)) }
+  let(:recipe) { chef.recipes.create!(attributes_for(:recipe)) }
+  let(:new_chef) { build(:chef) }
 
   before(:each) do
     login(chef.email, chef.password)
@@ -58,7 +58,7 @@ RSpec.describe 'ChefsEdit', type: :request do
     it 'email should be updated' do
       valid_chef_patch
       follow_redirect!
-      expect(response.body).to match(new_chef.email)
+      expect(response.body).to match(new_chef.email.downcase)
     end
   end
 
@@ -70,7 +70,7 @@ RSpec.describe 'ChefsEdit', type: :request do
     end
 
     it 'invalid update' do
-      other_chef = create(:chef_b)
+      other_chef = create(:chef)
       login(other_chef.email, other_chef.password)
       valid_chef_patch
     end

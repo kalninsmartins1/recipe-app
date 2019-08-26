@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'IngredientsControllerEditUpdateActions', type: :request do
   let(:ingredient) { create(:ingredient) }
-  let(:new_ingredient) { build(:ingredient_a) }
+  let(:new_ingredient) { build(:ingredient) }
 
   def patch_valid_ingredient_update
     patch ingredient_path(ingredient, params: {ingredient: {name: new_ingredient.name}})

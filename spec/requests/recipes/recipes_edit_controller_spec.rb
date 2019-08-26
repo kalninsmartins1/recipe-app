@@ -16,7 +16,7 @@ RSpec.describe 'RecipesEditController', type: :request do
 
   context 'invalid recipe update' do
     def invalid_recipe_patch
-      new_recipe = build(:recipe_a)
+      new_recipe = build(:recipe)
       patch recipe_path(recipe), params: {recipe: {name: '', description: new_recipe.description}}
     end
 
@@ -38,7 +38,7 @@ RSpec.describe 'RecipesEditController', type: :request do
   end
 
   context 'valid recipe update' do
-    let(:new_recipe) { build(:recipe_b) }
+    let(:new_recipe) { build(:recipe) }
 
     def valid_recipe_patch(ingredient_ids = [])
       patch recipe_path(recipe), params: {recipe: {name: new_recipe.name,

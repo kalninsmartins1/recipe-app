@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'IngredientsControllerIndexAction', type: :request do
-  let!(:first_ingredient) { create(:ingredient_a) }
-  let!(:second_ingredient) { create(:ingredient_b) }
+  let!(:first_ingredient) { create(:ingredient) }
+  let!(:second_ingredient) { create(:ingredient) }
 
   it 'displays a list of ingredients' do
     get ingredients_path

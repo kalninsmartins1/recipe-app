@@ -53,7 +53,7 @@ RSpec.describe 'ChefsCreate', type: :request do
 
       it 'created chef is logged in' do
         post_valid_chef
-        found_chef = ValidChefDecorator.find_by(email: chef.email)
+        found_chef = ValidChefDecorator.find_by(email: chef.email.downcase)
         expect(session[:chef_id]).to eq(found_chef.id)
       end
     end

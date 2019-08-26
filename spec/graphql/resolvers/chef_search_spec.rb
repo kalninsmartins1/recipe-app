@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'CreateSearch' do
-  let(:chef_a) { create(:chef_a) }
-  let(:chef_b) { create(:chef_b) }
+  let(:chef_a) { create(:chef) }
+  let(:chef_b) { create(:chef) }
 
   def find(args)
     Resolvers::ChefsSearch.call(nil, args, nil)
