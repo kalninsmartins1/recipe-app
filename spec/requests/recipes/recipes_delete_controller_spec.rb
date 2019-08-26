@@ -40,7 +40,7 @@ RSpec.describe 'RecipesDeleteController', type: :request do
       chef.save!
       recipe = Recipe.new(id: -1)
       delete recipe_path(recipe)
-      expect(response).to have_http_status(402)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 end

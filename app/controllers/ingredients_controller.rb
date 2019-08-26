@@ -1,6 +1,6 @@
 # Class controlling access to Ingredient model
 class IngredientsController < ApplicationController
-  before_action :find_ingredient, only: [:show, :update, :edit]
+  attr_writer :ingredient
   before_action :require_admin, except: [:index, :show]
 
   def index
@@ -8,18 +8,18 @@ class IngredientsController < ApplicationController
   end
 
   def show
-    @ingredient_recipes = @ingredient.recipes.paginate(page: params[:page], per_page: 5)
+    @ingredient_recipes = ingredient.recipes.paginate(page: params[:page], per_page: 5)
   end
 
   def new
-    @ingredient = Ingredient.new
+    self.ingredient = Ingredient.new
   end
 
   def create
-    @ingredient = Ingredient.new(ingredient_params)
-    if @ingredient.save
+    self.ingredient = Ingredient.new(ingredient_params)
+    if ingredient.save
       flash[:success] = 'Ingredient successfully created !'
-      redirect_to ingredient_path(@ingredient)
+      redirect_to ingredient_path(ingredient)
     else
       render 'new'
     end
@@ -28,9 +28,9 @@ class IngredientsController < ApplicationController
   def edit; end
 
   def update
-    if @ingredient.update(ingredient_params)
+    if ingredient.update(ingredient_params)
       flash[:success] = 'Ingredient successfully updated !'
-      redirect_to ingredient_path(@ingredient)
+      redirect_to ingredient_path(ingredient)
     else
       render 'edit'
     end
@@ -45,8 +45,8 @@ class IngredientsController < ApplicationController
     redirect_to ingredients_path
   end
 
-  def find_ingredient
-    @ingredient = ValidIngredientDecorator.find(params[:id])
+  def ingredient
+    @ingredient ||= ValidIngredientDecorator.find(params[:id])
   end
 
   def ingredient_params

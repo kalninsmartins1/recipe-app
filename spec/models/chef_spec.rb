@@ -12,7 +12,7 @@ RSpec.describe Chef, type: :model do
     end
 
     context 'email' do
-      it { should validate_presence_of(:email) }
+      it { is_expected.to validate_presence_of(:email) }
       it { should validate_length_of(:email).is_at_least(3).is_at_most(320) }
       it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
 
