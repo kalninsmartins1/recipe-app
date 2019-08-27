@@ -1,3 +1,3 @@
 # README
-* Ruby version: 2.3.3
+* Ruby version: 2.5.5
 * Rails version: 5.2.3
